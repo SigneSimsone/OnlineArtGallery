@@ -1,4 +1,5 @@
-﻿using OnlineArtGallery.Web.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineArtGallery.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,18 @@ namespace OnlineArtGallery.Web.Data.Managers
 
         public ArtistModel[] GetArtists()
         {
-            var result = _dbContext.Artists.ToArray();
+            var result = _dbContext
+                .Artists
+                .Include(x => x.Users)
+                .ToArray();
 
             return result;
+        }
+        public ArtistModel GetOneArtist(Guid id)
+        {
+            var item = _dbContext.Artists.First(x => x.Id == id);
+
+            return item;
         }
 
         internal void AddArtist(string name, string surname, string place)
@@ -35,9 +45,35 @@ namespace OnlineArtGallery.Web.Data.Managers
             _dbContext.SaveChanges();
         }
 
-        internal void Edit(Guid id)
+        internal void Edit(Guid id, string name, string surname, string place)
         {
-           
+            var item = _dbContext.Artists.First(x => x.Id == id);
+            item.Name = name;
+            item.Surname = surname;
+            item.PlaceOfBirth = place;
+
+            _dbContext.SaveChanges();
+        }
+
+        internal void FavoriteArtist(Guid id, UserModel user)
+        {
+            var artist = _dbContext.Artists.Include(x => x.Users).First(x => x.Id == id);
+            artist.Users.Add(user);
+
+            _dbContext.SaveChanges();
+        }
+
+        internal void UnFavoriteArtist(Guid id, UserModel user)
+        {
+            var artist = _dbContext.Artists.Include(x => x.Users).First(x => x.Id == id);
+            artist.Users.Remove(user);
+
+            _dbContext.SaveChanges();
+        }
+
+        internal void Favorite()
+        {
+
         }
 
         internal void Delete(Guid id)

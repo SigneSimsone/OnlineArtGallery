@@ -1,0 +1,12 @@
+﻿@model ArtistModel
+
+<form asp-action="Edit" method="post">
+    @Html.Hidden("Id", Model.Id)
+    <label for="new-name">Name:</label>
+    <input type="text" id="new-name" name="name" value="@Model.Name" />
+    <label for="new-surname">Surname:</label>
+    <input type="text" id="new-surname" name="surname" value="@Model.Surname" />
+    <label for="new-place">Place Of Birth:</label>
+    <input type="text" id="new-place" name="place" value="@Model.PlaceOfBirth" />
+    <input type="submit" value="Submit" />
+</form>

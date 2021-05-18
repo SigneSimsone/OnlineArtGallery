@@ -16,5 +16,7 @@ namespace OnlineArtGallery.Web.Models
         {
             Id = Guid.NewGuid();
         }
+
+        public ICollection<UserModel> Users { get; set; }
     }
 }
