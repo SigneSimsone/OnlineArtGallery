@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OnlineArtGallery.Web.Models
 {
@@ -16,6 +14,8 @@ namespace OnlineArtGallery.Web.Models
         {
             Id = Guid.NewGuid();
         }
+
+        public ICollection<ArtworkModel> Artworks { get; set; }
 
         public ICollection<UserModel> Users { get; set; }
     }

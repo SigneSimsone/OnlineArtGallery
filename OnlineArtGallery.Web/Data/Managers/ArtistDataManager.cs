@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineArtGallery.Web.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace OnlineArtGallery.Web.Data.Managers
 {
@@ -71,9 +69,10 @@ namespace OnlineArtGallery.Web.Data.Managers
             _dbContext.SaveChanges();
         }
 
-        internal void Favorite()
+        internal ArtistModel[] GetFavoriteArtists(UserModel user)
         {
-
+            var result = _dbContext.Artists.Include(x => x.Users.Where(y => y == user)).ToArray();
+            return result;
         }
 
         internal void Delete(Guid id)

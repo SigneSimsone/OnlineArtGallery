@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 
 namespace OnlineArtGallery.Web.Models
 {
@@ -13,5 +10,7 @@ namespace OnlineArtGallery.Web.Models
         public bool IsBlocked { get; set; }
 
         public ICollection<ArtistModel> Artists { get; set; }
+        public ICollection<ArtworkModel> Artworks { get; set; }
+        public ICollection<FeedbackModel> Feedbacks { get; set; }
     }
 }

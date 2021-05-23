@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OnlineArtGallery.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OnlineArtGallery.Web.Data
 {
@@ -14,5 +11,7 @@ namespace OnlineArtGallery.Web.Data
         {
         }
         public DbSet<ArtistModel> Artists { get; set; }
+        public DbSet<ArtworkModel> Artworks { get; set; }
+        public DbSet<StyleModel> Styles { get; set; }
     }
 }

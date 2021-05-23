@@ -7,42 +7,43 @@ using System;
 
 namespace OnlineArtGallery.Web.Controllers
 {
+
     [Authorize]
-    public class ArtistController : Controller
+    public class ArtworkController : Controller
     {
-        private readonly ArtistDataManager _artistDataManager;
+        private readonly ArtworkDataManager _artworkDataManager;
         private readonly UserManager<UserModel> _userManager;
 
-        public ArtistController(ArtistDataManager artistDataManager, UserManager<UserModel> userManager)
+        public ArtworkController(ArtworkDataManager artworkDataManager, UserManager<UserModel> userManager)
         {
-            _artistDataManager = artistDataManager;
+            _artworkDataManager = artworkDataManager;
             _userManager = userManager;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            ArtistModel[] artists = _artistDataManager.GetArtists();
+            ArtworkModel[] artworks = _artworkDataManager.GetArtworks();
             var userId = _userManager.GetUserId(User);
-            ArtistViewModel viewModel = new ArtistViewModel();
-            viewModel.Artists = artists;
+            ArtworkViewModel viewModel = new ArtworkViewModel();
+            viewModel.Artworks = artworks;
             viewModel.UserId = userId;
 
             return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult AddArtist(string name, string surname, string place)
+        public IActionResult AddArtwork(string title, int year, string description, string type, float price)
         {
-            _artistDataManager.AddArtist(name, surname, place);
+            _artworkDataManager.AddArtwork(title, year, description, type, price);
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public IActionResult Edit(Guid id, string name, string surname, string place)
+        public IActionResult Edit(Guid id, string title, int year, string description, string type, float price, bool availability)
         {
-            _artistDataManager.Edit(id, name, surname, place);
+            _artworkDataManager.Edit(id, title, year, description, type, price, availability);
 
 
             return RedirectToAction(nameof(Index));
@@ -51,8 +52,8 @@ namespace OnlineArtGallery.Web.Controllers
         [HttpGet]
         public IActionResult Edit(Guid id)
         {
-            // get artist from database (ArtistModel)
-            ArtistModel model = _artistDataManager.GetOneArtist(id);
+            // get artwork from database (ArtworkModel)
+            ArtworkModel model = _artworkDataManager.GetOneArtwork(id);
             // return view 
 
             return View(model);
@@ -63,7 +64,7 @@ namespace OnlineArtGallery.Web.Controllers
         {
             var user = _userManager.GetUserAsync(User).Result;
 
-            _artistDataManager.FavoriteArtist(id, user);
+            _artworkDataManager.FavoriteArtwork(id, user);
 
             return RedirectToAction(nameof(Index));
         }
@@ -73,27 +74,18 @@ namespace OnlineArtGallery.Web.Controllers
         {
             var user = _userManager.GetUserAsync(User).Result;
 
-            _artistDataManager.UnFavoriteArtist(id, user);
+            _artworkDataManager.UnFavoriteArtwork(id, user);
 
             return RedirectToAction(nameof(Index));
         }
 
-        /*[HttpPost]
-        public IActionResult GetFavoriteArtists()
-        {
-            var user = _userManager.GetUserAsync(User).Result;
-
-            _artistDataManager.GetFavoriteArtists(user);
-
-            return RedirectToAction(nameof(Index));
-        }*/
-
         [HttpPost]
         public IActionResult Delete(Guid id)
         {
-            _artistDataManager.Delete(id);
+            _artworkDataManager.Delete(id);
 
             return RedirectToAction(nameof(Index));
         }
     }
 }
+

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineArtGallery.Web.Data;
 
 namespace OnlineArtGallery.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210523173641_RenameTables")]
+    partial class RenameTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -239,33 +241,6 @@ namespace OnlineArtGallery.Web.Data.Migrations
                     b.ToTable("Artworks");
                 });
 
-            modelBuilder.Entity("OnlineArtGallery.Web.Models.FeedbackModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ArtworkId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ArtworkId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("FeedbackModel");
-                });
-
             modelBuilder.Entity("OnlineArtGallery.Web.Models.StyleModel", b =>
                 {
                     b.Property<string>("NameofStyle")
@@ -446,39 +421,14 @@ namespace OnlineArtGallery.Web.Data.Migrations
                     b.Navigation("Style");
                 });
 
-            modelBuilder.Entity("OnlineArtGallery.Web.Models.FeedbackModel", b =>
-                {
-                    b.HasOne("OnlineArtGallery.Web.Models.ArtworkModel", "Artwork")
-                        .WithMany("Feedbacks")
-                        .HasForeignKey("ArtworkId");
-
-                    b.HasOne("OnlineArtGallery.Web.Models.UserModel", "User")
-                        .WithMany("Feedbacks")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Artwork");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("OnlineArtGallery.Web.Models.ArtistModel", b =>
                 {
                     b.Navigation("Artworks");
                 });
 
-            modelBuilder.Entity("OnlineArtGallery.Web.Models.ArtworkModel", b =>
-                {
-                    b.Navigation("Feedbacks");
-                });
-
             modelBuilder.Entity("OnlineArtGallery.Web.Models.StyleModel", b =>
                 {
                     b.Navigation("Artworks");
-                });
-
-            modelBuilder.Entity("OnlineArtGallery.Web.Models.UserModel", b =>
-                {
-                    b.Navigation("Feedbacks");
                 });
 #pragma warning restore 612, 618
         }

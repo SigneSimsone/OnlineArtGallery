@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,10 +8,6 @@ using Microsoft.Extensions.Hosting;
 using OnlineArtGallery.Web.Data;
 using OnlineArtGallery.Web.Data.Managers;
 using OnlineArtGallery.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OnlineArtGallery.Web
 {
@@ -44,6 +38,7 @@ namespace OnlineArtGallery.Web
             services.AddControllersWithViews();
 
             services.AddScoped<ArtistDataManager>();
+            services.AddScoped<ArtworkDataManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
