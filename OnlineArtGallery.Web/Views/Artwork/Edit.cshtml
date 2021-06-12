@@ -1,6 +1,6 @@
-﻿@model ArtworkModel
+﻿@model ArtworkViewModel
 
-<form asp-action="Edit" method="post">
+@*<form asp-action="Edit" method="post">
     @Html.Hidden("Id", Model.Id)
     <label for="new-title">Title:</label>
     <input type="text" id="new-title" name="title" value="@Model.Title" />
@@ -12,7 +12,37 @@
     <input type="text" id="new-type" name="type" value="@Model.Type" />
     <label for="new-price">Price:</label>
     <input type="number" id="new-price" name="price" value="@Model.Price" />
-    <label for="new-availability">Availability:</label>
-    <input type="checkbox" id="new-availability" name="availability" value="@Model.Availability" />
+    <label for="new-availability">Available:</label>
+    <input type="checkbox" id="new-availability" name="availability" value="true" />
+    <input type="submit" value="Submit" />
+</form>*@
+<form asp-action="Edit" method="post">
+    @Html.Hidden("ArtworkId", Model.Id)
+    <label asp-for="Title"></label>
+    <input asp-for="Title" class="form-control" />
+
+    <label asp-for="SelectedArtist">Artist</label>
+    <select asp-for="SelectedArtist" asp-items="Model.ArtistDropdown" class="form-control">
+    </select>
+
+    <label asp-for="SelectedStyle">Style</label>
+    <select asp-for="SelectedStyle" asp-items="Model.StyleDropdown" class="form-control">
+    </select>
+
+    <label asp-for="Year"></label>
+    <input asp-for="Year" class="form-control" />
+
+    <label asp-for="Description"></label>
+    <input asp-for="Description" class="form-control" />
+
+    <label asp-for="Type"></label>
+    <input asp-for="Type" class="form-control" />
+
+    <label asp-for="Price"></label>
+    <input asp-for="Price" class="form-control" />
+
+    <label asp-for="Availability"></label>
+    <input asp-for="Availability" class="form-control" />
+
     <input type="submit" value="Submit" />
 </form>

@@ -39,59 +39,59 @@ namespace OnlineArtGallery.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-        public IActionResult Edit(Guid id, string name, string surname, string place)
+        [HttpGet]
+        public IActionResult OpenArtist(Guid ArtistId)
         {
-            _artistDataManager.Edit(id, name, surname, place);
+            // get artist from database (ArtistModel)
+            ArtistModel model = _artistDataManager.GetOneArtist(ArtistId);
+            // return view 
+
+            return View("OneArtist", model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Guid ArtistId, string name, string surname, string place)
+        {
+            _artistDataManager.Edit(ArtistId, name, surname, place);
 
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
-        public IActionResult Edit(Guid id)
+        public IActionResult Edit(Guid ArtistId)
         {
             // get artist from database (ArtistModel)
-            ArtistModel model = _artistDataManager.GetOneArtist(id);
+            ArtistModel model = _artistDataManager.GetOneArtist(ArtistId);
             // return view 
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Favorite(Guid id)
+        public IActionResult Favorite(Guid ArtistId)
         {
             var user = _userManager.GetUserAsync(User).Result;
 
-            _artistDataManager.FavoriteArtist(id, user);
+            _artistDataManager.FavoriteArtist(ArtistId, user);
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public IActionResult Unfavorite(Guid id)
+        public IActionResult Unfavorite(Guid ArtistId)
         {
             var user = _userManager.GetUserAsync(User).Result;
 
-            _artistDataManager.UnFavoriteArtist(id, user);
+            _artistDataManager.UnFavoriteArtist(ArtistId, user);
 
             return RedirectToAction(nameof(Index));
         }
 
-        /*[HttpPost]
-        public IActionResult GetFavoriteArtists()
-        {
-            var user = _userManager.GetUserAsync(User).Result;
-
-            _artistDataManager.GetFavoriteArtists(user);
-
-            return RedirectToAction(nameof(Index));
-        }*/
-
         [HttpPost]
-        public IActionResult Delete(Guid id)
+        public IActionResult Delete(Guid ArtistId)
         {
-            _artistDataManager.Delete(id);
+            _artistDataManager.Delete(ArtistId);
 
             return RedirectToAction(nameof(Index));
         }

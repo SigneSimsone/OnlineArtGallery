@@ -13,5 +13,10 @@ namespace OnlineArtGallery.Web.Models
 
         public ArtworkModel Artwork { get; set; }
         public UserModel User { get; set; }
+
+        public FeedbackModel()
+        {
+            Id = Guid.NewGuid();
+        }
     }
 }

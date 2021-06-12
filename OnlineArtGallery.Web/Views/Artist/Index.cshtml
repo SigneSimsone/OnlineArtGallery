@@ -19,49 +19,58 @@
                 <th>@Html.DisplayNameFor(x => x.Artists[0].Name)</th>
                 <th>@Html.DisplayNameFor(x => x.Artists[0].Surname)</th>
                 <th>@Html.DisplayNameFor(x => x.Artists[0].PlaceOfBirth)</th>
+                <th>Open</th>
+                <th>Favorite</th>
+                <th>Edit</th>
                 <th>Delete</th>
             </tr>
         </thead>
         <tbody id="tbody">
             @foreach (var artist in Model.Artists)
             {
-            <tr>
-                <td>@artist.Name</td>
-                <td>@artist.Surname</td>
-                <td>@artist.PlaceOfBirth</td>
-                @{
-                    if (!artist.Users.Any(x => x.Id == Model.UserId))
-                    {
-                        <td>
-                            <form asp-action="Favorite" method="post">
-                                <input type="submit" value="Favorite" />
-                                @Html.Hidden("Id", artist.Id)
-                            </form>
-                        </td>
+                <tr>
+                    <td>@artist.Name</td>
+                    <td>@artist.Surname</td>
+                    <td>@artist.PlaceOfBirth</td>
+                    <td>
+                        <form asp-action="OpenArtist" method="get">
+                            <input type="submit" value="Open" />
+                            @Html.Hidden("ArtistId", artist.Id)
+                        </form>
+                    </td>
+                    @{
+                        if (!artist.Users.Any(x => x.Id == Model.UserId))
+                        {
+                            <td>
+                                <form asp-action="Favorite" method="post">
+                                    <input type="submit" value="Favorite" />
+                                    @Html.Hidden("ArtistId", artist.Id)
+                                </form>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <form asp-action="Unfavorite" method="post">
+                                    <input type="submit" value="Unfavorite" />
+                                    @Html.Hidden("ArtistId", artist.Id)
+                                </form>
+                            </td>
+                        }
                     }
-                    else
-                    {
-                        <td>
-                            <form asp-action="Unfavorite" method="post">
-                                <input type="submit" value="Unfavorite" />
-                                @Html.Hidden("Id", artist.Id)
-                            </form>
-                        </td>
-                    }
-                }
-                <td>
-                    <form asp-action="Edit" method="get">
-                        <input type="submit" value="Edit" />
-                        @Html.Hidden("Id", artist.Id)
-                    </form>
-                </td>
-                <td>
-                    <form asp-action="Delete" method="post">
-                        <input type="submit" value="Delete" />
-                        @Html.Hidden("Id", artist.Id)
-                    </form>
-                </td>
-            </tr>
+                    <td>
+                        <form asp-action="Edit" method="get">
+                            <input type="submit" value="Edit" />
+                            @Html.Hidden("ArtistId", artist.Id)
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="Delete" method="post">
+                            <input type="submit" value="Delete" />
+                            @Html.Hidden("ArtistId", artist.Id)
+                        </form>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

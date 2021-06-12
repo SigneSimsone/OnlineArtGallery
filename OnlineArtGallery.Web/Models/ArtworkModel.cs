@@ -26,5 +26,6 @@ namespace OnlineArtGallery.Web.Models
 
         public ICollection<UserModel> Users { get; set; }
         public ICollection<FeedbackModel> Feedbacks { get; set; }
+        public ICollection<ExhibitionModel> Exhibitions { get; set; }
     }
 }

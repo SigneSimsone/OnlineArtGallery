@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineArtGallery.Web.Data.Managers;
 using OnlineArtGallery.Web.Models;
 using System;
+using System.Linq;
 
 namespace OnlineArtGallery.Web.Controllers
 {
@@ -12,12 +14,14 @@ namespace OnlineArtGallery.Web.Controllers
     public class ArtworkController : Controller
     {
         private readonly ArtworkDataManager _artworkDataManager;
+        private readonly ArtistDataManager _artistDataManager;
         private readonly UserManager<UserModel> _userManager;
 
-        public ArtworkController(ArtworkDataManager artworkDataManager, UserManager<UserModel> userManager)
+        public ArtworkController(ArtworkDataManager artworkDataManager, UserManager<UserModel> userManager, ArtistDataManager artistDataManager)
         {
             _artworkDataManager = artworkDataManager;
             _userManager = userManager;
+            _artistDataManager = artistDataManager;
         }
 
         [HttpGet]
@@ -29,63 +33,150 @@ namespace OnlineArtGallery.Web.Controllers
             viewModel.Artworks = artworks;
             viewModel.UserId = userId;
 
+            ArtistModel[] artists = _artistDataManager.GetArtists();
+            var artistList = artists.Select(x => new { x.Id, x.FullName }).ToList();
+            viewModel.ArtistDropdown = new SelectList(artistList, "Id", "FullName");
+
+
+            StyleModel[] styles = _artworkDataManager.GetStyles();
+            var styleList = styles.Select(x => new { x.Id, x.Style }).ToList();
+            viewModel.StyleDropdown = new SelectList(styleList, "Id", "Style");
+
             return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult AddArtwork(string title, int year, string description, string type, float price)
+        public IActionResult AddArtwork(ArtworkViewModel model)
         {
-            _artworkDataManager.AddArtwork(title, year, description, type, price);
+            ArtistModel artistmodel = _artistDataManager.GetOneArtist(model.SelectedArtist);
+            StyleModel stylemodel = _artworkDataManager.GetOneStyle(model.SelectedStyle);
+
+            _artworkDataManager.AddArtwork(model.Title, artistmodel, stylemodel, model.Year, model.Description, model.Type, model.Price, model.Availability);
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public IActionResult Edit(Guid id, string title, int year, string description, string type, float price, bool availability)
+        public IActionResult Edit(Guid ArtworkId, ArtworkViewModel model)
         {
-            _artworkDataManager.Edit(id, title, year, description, type, price, availability);
+
+            ArtistModel artistmodel = _artistDataManager.GetOneArtist(model.SelectedArtist);
+            StyleModel stylemodel = _artworkDataManager.GetOneStyle(model.SelectedStyle);
+
+            _artworkDataManager.Edit(ArtworkId, model.Title, artistmodel, stylemodel, model.Year, model.Description, model.Type, model.Price, model.Availability);
 
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
-        public IActionResult Edit(Guid id)
+        public IActionResult Edit(Guid ArtworkId)
         {
             // get artwork from database (ArtworkModel)
-            ArtworkModel model = _artworkDataManager.GetOneArtwork(id);
+            ArtworkModel model = _artworkDataManager.GetOneArtwork(ArtworkId);
+            ArtworkViewModel viewModel = new ArtworkViewModel();
+            viewModel.Id = model.Id;
+            viewModel.Title = model.Title;
+
+            ArtistModel[] artists = _artistDataManager.GetArtists();
+            var artistList = artists.Select(x => new { x.Id, x.FullName }).ToList();
+
+            viewModel.ArtistDropdown = new SelectList(artistList, "Id", "FullName", model.Artist.FullName);
+
+
+            StyleModel[] styles = _artworkDataManager.GetStyles();
+            var styleList = styles.Select(x => new { x.Id, x.Style }).ToList();
+
+            viewModel.StyleDropdown = new SelectList(styleList, "Id", "Style", model.Style.Style);
+
+            viewModel.Year = model.Year;
+            viewModel.Description = model.Description;
+            viewModel.Type = model.Type;
+            viewModel.Price = model.Price;
+            viewModel.Availability = model.Availability;
+
             // return view 
 
-            return View(model);
+            return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Favorite(Guid id)
+        public IActionResult Favorite(Guid ArtworkId)
         {
             var user = _userManager.GetUserAsync(User).Result;
 
-            _artworkDataManager.FavoriteArtwork(id, user);
+            _artworkDataManager.FavoriteArtwork(ArtworkId, user);
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public IActionResult Unfavorite(Guid id)
+        public IActionResult Unfavorite(Guid ArtworkId)
         {
             var user = _userManager.GetUserAsync(User).Result;
 
-            _artworkDataManager.UnFavoriteArtwork(id, user);
+            _artworkDataManager.UnFavoriteArtwork(ArtworkId, user);
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public IActionResult Delete(Guid id)
+        public IActionResult Delete(Guid ArtworkId)
         {
-            _artworkDataManager.Delete(id);
+            _artworkDataManager.Delete(ArtworkId);
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public IActionResult OpenArtwork(Guid ArtworkId)
+        {
+            // get artwork from database (ArtworkModel)
+            ArtworkModel model = _artworkDataManager.GetOneArtwork(ArtworkId);
+
+            return View("OneArtwork", model);
+        }
+        [HttpGet]
+        public IActionResult BuyArtwork(Guid ArtworkId)
+        {
+            // get artwork from database (ArtworkModel)
+            //ArtworkModel model = _artworkDataManager.GetOneArtwork(ArtworkId);
+            //_artworkDataManager.EditAfterBuying(ArtworkId);
+
+            return View("OrderArtwork");
+        }
+
+
+
+
+        [HttpPost]
+        public IActionResult AddFeedback(Guid ArtworkId, string comment)
+        {
+            var user = _userManager.GetUserAsync(User).Result;
+            _artworkDataManager.AddFeedback(ArtworkId, comment, user);
+
+            return RedirectToAction(nameof(OpenArtwork), new { Id = ArtworkId });
+        }
+
+        [HttpPost]
+        public IActionResult DeleteFeedback(Guid FeedbackId, Guid ArtworkId)
+        {
+            _artworkDataManager.DeleteFeedback(FeedbackId);
+
+            return RedirectToAction(nameof(OpenArtwork), new { Id = ArtworkId });
+        }
+
+
+
+
+        [HttpPost]
+        public IActionResult AddStyle(string style)
+        {
+            _artworkDataManager.AddStyle(style);
+
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
 

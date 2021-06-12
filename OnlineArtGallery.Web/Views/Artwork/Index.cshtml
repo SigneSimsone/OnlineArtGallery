@@ -1,18 +1,45 @@
 ﻿@model ArtworkViewModel
 
+<h5>Add new artwork:</h5>
 <form asp-action="AddArtwork" method="post">
-    <label for="new-title">Title:</label>
-    <input type="text" id="new-title" name="title" />
-    <label for="new-year">Year:</label>
-    <input type="number" id="new-year" name="year" />
-    <label for="new-description">Description:</label>
-    <input type="text" id="new-description" name="description" />
-    <label for="new-type">Type:</label>
-    <input type="text" id="new-type" name="type" />
-    <label for="new-price">Price:</label>
-    <input type="number" id="new-price" name="price" />
+    <label asp-for="Title"></label>
+    <input asp-for="Title" class="form-control" />
+
+    <label asp-for="SelectedArtist">Artist</label>
+    <select asp-for="SelectedArtist" asp-items="Model.ArtistDropdown" class="form-control">
+        <option value="">Select artist</option>
+    </select>
+
+    <label asp-for="SelectedStyle">Style</label>
+    <select asp-for="SelectedStyle" asp-items="Model.StyleDropdown" class="form-control">
+        <option value="">Select style</option>
+    </select>
+
+    <label asp-for="Year"></label>
+    <input asp-for="Year" class="form-control" />
+
+    <label asp-for="Description"></label>
+    <input asp-for="Description" class="form-control" />
+
+    <label asp-for="Type"></label>
+    <input asp-for="Type" class="form-control" />
+
+    <label asp-for="Price"></label>
+    <input asp-for="Price" class="form-control" />
+
+    <label asp-for="Availability"></label>
+    <input asp-for="Availability" class="form-control" />
+
     <input type="submit" value="Submit" />
 </form>
+
+<h5>Add new style to database:</h5>
+<form asp-action="AddStyle" method="post">
+    <label for="new-style">Style:</label>
+    <input type="text" id="new-style" name="style" />
+    <input type="submit" value="Submit" />
+</form>
+
 
 @if (Model != null && Model.Artworks.Length > 0)
 {
@@ -26,6 +53,9 @@
                 <th>@Html.DisplayNameFor(x => x.Artworks[0].Type)</th>
                 <th>@Html.DisplayNameFor(x => x.Artworks[0].Price)</th>
                 <th>@Html.DisplayNameFor(x => x.Artworks[0].Availability)</th>
+                <th>Open</th>
+                <th>Favorite</th>
+                <th>Edit</th>
                 <th>Delete</th>
             </tr>
         </thead>
@@ -39,13 +69,19 @@
                     <td>@artwork.Type</td>
                     <td>@artwork.Price</td>
                     <td>@artwork.Availability</td>
+                    <td>
+                        <form asp-action="OpenArtwork" method="get">
+                            <input type="submit" value="Open" />
+                            @Html.Hidden("ArtworkId", artwork.Id)
+                        </form>
+                    </td>
                     @{
                         if (!artwork.Users.Any(x => x.Id == Model.UserId))
                         {
                             <td>
                                 <form asp-action="Favorite" method="post">
                                     <input type="submit" value="Favorite" />
-                                    @Html.Hidden("Id", artwork.Id)
+                                    @Html.Hidden("ArtworkId", artwork.Id)
                                 </form>
                             </td>
                         }
@@ -54,7 +90,7 @@
                             <td>
                                 <form asp-action="Unfavorite" method="post">
                                     <input type="submit" value="Unfavorite" />
-                                    @Html.Hidden("Id", artwork.Id)
+                                    @Html.Hidden("ArtworkId", artwork.Id)
                                 </form>
                             </td>
                         }
@@ -62,13 +98,13 @@
                     <td>
                         <form asp-action="Edit" method="get">
                             <input type="submit" value="Edit" />
-                            @Html.Hidden("Id", artwork.Id)
+                            @Html.Hidden("ArtworkId", artwork.Id)
                         </form>
                     </td>
                     <td>
                         <form asp-action="Delete" method="post">
                             <input type="submit" value="Delete" />
-                            @Html.Hidden("Id", artwork.Id)
+                            @Html.Hidden("ArtworkId", artwork.Id)
                         </form>
                     </td>
                 </tr>

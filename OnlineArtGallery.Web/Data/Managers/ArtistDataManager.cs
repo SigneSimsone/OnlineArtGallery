@@ -25,7 +25,7 @@ namespace OnlineArtGallery.Web.Data.Managers
         }
         public ArtistModel GetOneArtist(Guid id)
         {
-            var item = _dbContext.Artists.First(x => x.Id == id);
+            var item = _dbContext.Artists.Include(x => x.Artworks).First(x => x.Id == id);
 
             return item;
         }

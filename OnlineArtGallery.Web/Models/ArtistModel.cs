@@ -16,7 +16,16 @@ namespace OnlineArtGallery.Web.Models
         }
 
         public ICollection<ArtworkModel> Artworks { get; set; }
+        public ICollection<ExhibitionModel> Exhibitions { get; set; }
 
         public ICollection<UserModel> Users { get; set; }
+
+        public string FullName
+        {
+            get
+            {
+                return $"{Name} {Surname}";
+            }
+        }
     }
 }
