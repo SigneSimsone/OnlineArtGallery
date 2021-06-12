@@ -1,0 +1,71 @@
+﻿@model ArtworkModel
+
+@if (Model != null)
+{
+    <h2 id="OneArtwork">Information about Artwork</h2>
+    <table id="OneArtworkTable">
+        <thead id="thead">
+            <tr>
+                <th>@Html.DisplayNameFor(x => x.Title)</th>
+                <th>@Html.DisplayNameFor(x => x.Artist)</th>
+                <th>@Html.DisplayNameFor(x => x.Style)</th>
+                <th>@Html.DisplayNameFor(x => x.Year)</th>
+                <th>@Html.DisplayNameFor(x => x.Description)</th>
+                <th>@Html.DisplayNameFor(x => x.Type)</th>
+                <th>@Html.DisplayNameFor(x => x.Price)</th>
+                <th>@Html.DisplayNameFor(x => x.Availability)</th>
+                <th>Feedback</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            <tr>
+                <td>@Model.Title</td>
+                <td>
+                    @Model.Artist.FullName
+                    <form asp-controller="Artist" asp-action="OpenArtist" asp-route-id="@Model.Artist.Id" method="get">
+                        <input type="submit" value="Open" />
+                        @Html.Hidden("ArtistId", Model.Artist.Id)
+                    </form>
+                </td>
+                <td>@Model.Style.Style</td>
+                <td>@Model.Year</td>
+                <td>@Model.Description</td>
+                <td>@Model.Type</td>
+                <td>@Model.Price</td>
+                <td>@Model.Availability</td>
+
+
+                <td>
+                    <form asp-action="AddFeedback" method="post">
+                        <label for="new-comment">Your Comment:</label>
+                        <input type="text" id="new-comment" name="comment" />
+                        <input type="submit" value="Submit" />
+                        @Html.Hidden("ArtworkId", Model.Id)
+                    </form>
+                </td>
+                @if (@Model.Availability == true)
+                {
+                    <td>
+                        <form asp-action="BuyArtwork" method="get">
+                            <input type="submit" value="Buy This Artwork" />
+                            @Html.Hidden("ArtworkId", Model.Id)
+                        </form>
+                    </td>
+                }
+            </tr>
+        </tbody>
+    </table>
+
+    @foreach (var feedback in Model.Feedbacks)
+    {
+        <p>@feedback.Comment</p>
+        <p>@feedback.Date</p>
+        <td>
+            <form asp-action="DeleteFeedback" method="post">
+                <input type="submit" value="Delete" />
+                @Html.Hidden("FeedbackId", feedback.Id)
+                @Html.Hidden("ArtworkId", Model.Id)
+            </form>
+        </td>
+    }
+}

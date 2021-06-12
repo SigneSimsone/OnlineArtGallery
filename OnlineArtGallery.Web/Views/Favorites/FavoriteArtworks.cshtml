@@ -1,5 +1,49 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model ArtworkViewModel
+
+
+@if (Model != null && Model.Artworks.Length > 0)
+{
+    <h2 id="FavoriteArtworks">My Favorite Artworks</h2>
+    <table id="FavoriteArtworksTable">
+        <thead id="thead">
+            <tr>
+                <th>@Html.DisplayNameFor(x => x.Artworks[0].Title)</th>
+                <th>@Html.DisplayNameFor(x => x.Artworks[0].Year)</th>
+                <th>@Html.DisplayNameFor(x => x.Artworks[0].Description)</th>
+                <th>@Html.DisplayNameFor(x => x.Artworks[0].Type)</th>
+                <th>@Html.DisplayNameFor(x => x.Artworks[0].Price)</th>
+                <th>@Html.DisplayNameFor(x => x.Artworks[0].Availability)</th>
+                <th>Open</th>
+                <th>Unfavorite</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            @foreach (var artwork in Model.Artworks)
+            {
+                if (artwork.Users.Any(x => x.Id == Model.UserId))
+                {
+                    <tr>
+                        <td>@artwork.Title</td>
+                        <td>@artwork.Year</td>
+                        <td>@artwork.Description</td>
+                        <td>@artwork.Type</td>
+                        <td>@artwork.Price</td>
+                        <td>@artwork.Availability</td>
+                        <td>
+                            <form asp-action="OpenArtwork" method="get">
+                                <input type="submit" value="Open" />
+                                @Html.Hidden("Id", artwork.Id)
+                            </form>
+                        </td>
+                        <td>
+                            <form asp-action="UnfavoriteArtwork" method="post">
+                                <input type="submit" value="Unfavorite" />
+                                @Html.Hidden("Id", artwork.Id)
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
 }
