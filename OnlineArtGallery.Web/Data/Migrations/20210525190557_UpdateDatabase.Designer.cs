@@ -3,36 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineArtGallery.Web.Data;
 
 namespace OnlineArtGallery.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210525190557_UpdateDatabase")]
+    partial class UpdateDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("ArtistModelExhibitionModel", b =>
-                {
-                    b.Property<Guid>("ArtistsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ExhibitionsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ArtistsId", "ExhibitionsId");
-
-                    b.HasIndex("ExhibitionsId");
-
-                    b.ToTable("ArtistModelExhibitionModel");
-                });
 
             modelBuilder.Entity("ArtistModelUserModel", b =>
                 {
@@ -47,21 +34,6 @@ namespace OnlineArtGallery.Web.Data.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("ArtistModelUserModel");
-                });
-
-            modelBuilder.Entity("ArtworkModelExhibitionModel", b =>
-                {
-                    b.Property<Guid>("ArtworksId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ExhibitionsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ArtworksId", "ExhibitionsId");
-
-                    b.HasIndex("ExhibitionsId");
-
-                    b.ToTable("ArtworkModelExhibitionModel");
                 });
 
             modelBuilder.Entity("ArtworkModelUserModel", b =>
@@ -248,8 +220,8 @@ namespace OnlineArtGallery.Web.Data.Migrations
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
-                    b.Property<Guid?>("StyleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("StyleNameofStyle")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -264,29 +236,9 @@ namespace OnlineArtGallery.Web.Data.Migrations
 
                     b.HasIndex("ArtistId");
 
-                    b.HasIndex("StyleId");
+                    b.HasIndex("StyleNameofStyle");
 
                     b.ToTable("Artworks");
-                });
-
-            modelBuilder.Entity("OnlineArtGallery.Web.Models.ExhibitionModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("End_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Start_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Exhibitions");
                 });
 
             modelBuilder.Entity("OnlineArtGallery.Web.Models.FeedbackModel", b =>
@@ -316,43 +268,12 @@ namespace OnlineArtGallery.Web.Data.Migrations
                     b.ToTable("Feedbacks");
                 });
 
-            modelBuilder.Entity("OnlineArtGallery.Web.Models.OrderModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("ArtworkId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ArtworkId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Orders");
-                });
-
             modelBuilder.Entity("OnlineArtGallery.Web.Models.StyleModel", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("NameofStyle")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Style")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
+                    b.HasKey("NameofStyle");
 
                     b.ToTable("Styles");
                 });
@@ -431,21 +352,6 @@ namespace OnlineArtGallery.Web.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("ArtistModelExhibitionModel", b =>
-                {
-                    b.HasOne("OnlineArtGallery.Web.Models.ArtistModel", null)
-                        .WithMany()
-                        .HasForeignKey("ArtistsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OnlineArtGallery.Web.Models.ExhibitionModel", null)
-                        .WithMany()
-                        .HasForeignKey("ExhibitionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ArtistModelUserModel", b =>
                 {
                     b.HasOne("OnlineArtGallery.Web.Models.ArtistModel", null)
@@ -457,21 +363,6 @@ namespace OnlineArtGallery.Web.Data.Migrations
                     b.HasOne("OnlineArtGallery.Web.Models.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ArtworkModelExhibitionModel", b =>
-                {
-                    b.HasOne("OnlineArtGallery.Web.Models.ArtworkModel", null)
-                        .WithMany()
-                        .HasForeignKey("ArtworksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OnlineArtGallery.Web.Models.ExhibitionModel", null)
-                        .WithMany()
-                        .HasForeignKey("ExhibitionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -550,7 +441,7 @@ namespace OnlineArtGallery.Web.Data.Migrations
 
                     b.HasOne("OnlineArtGallery.Web.Models.StyleModel", "Style")
                         .WithMany("Artworks")
-                        .HasForeignKey("StyleId");
+                        .HasForeignKey("StyleNameofStyle");
 
                     b.Navigation("Artist");
 
@@ -565,21 +456,6 @@ namespace OnlineArtGallery.Web.Data.Migrations
 
                     b.HasOne("OnlineArtGallery.Web.Models.UserModel", "User")
                         .WithMany("Feedbacks")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Artwork");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("OnlineArtGallery.Web.Models.OrderModel", b =>
-                {
-                    b.HasOne("OnlineArtGallery.Web.Models.ArtworkModel", "Artwork")
-                        .WithMany()
-                        .HasForeignKey("ArtworkId");
-
-                    b.HasOne("OnlineArtGallery.Web.Models.UserModel", "User")
-                        .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("Artwork");
