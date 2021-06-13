@@ -140,12 +140,27 @@ namespace OnlineArtGallery.Web.Controllers
         public IActionResult BuyArtwork(Guid ArtworkId)
         {
             // get artwork from database (ArtworkModel)
-            //ArtworkModel model = _artworkDataManager.GetOneArtwork(ArtworkId);
-            //_artworkDataManager.EditAfterBuying(ArtworkId);
+            ArtworkModel model = _artworkDataManager.GetOneArtwork(ArtworkId);
 
-            return View("OrderArtwork");
+            return View("OrderArtwork", model);
         }
 
+        [HttpPost]
+        public IActionResult AddOrder(string address, Guid ArtworkId)
+        {
+            ArtworkModel artworkmodel = _artworkDataManager.GetOneArtwork(ArtworkId);
+
+            var userId = _userManager.GetUserId(User);
+            UserModel usermodel = _artworkDataManager.GetOneUser(userId);
+
+            _artworkDataManager.AddOrder(address, artworkmodel, usermodel);
+            _artworkDataManager.EditAvailabilityAfterBuying(ArtworkId);
+
+            HomeModel homemodel = new HomeModel();
+            homemodel.Message = "Your Order has been accepted!";
+
+            return RedirectToAction("Index", "Home", homemodel);
+        }
 
 
 

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using OnlineArtGallery.Web.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OnlineArtGallery.Web.Data.Managers
@@ -20,9 +21,25 @@ namespace OnlineArtGallery.Web.Data.Managers
             var result = _dbContext
                 .Artworks
                 .Include(x => x.Users)
+                .Include(x => x.Artist)
                 .ToArray();
 
             return result;
+        }
+        public ArtworkModel[] GetArtworksForExhibition(List<Guid> id)
+        {
+            List<ArtworkModel> ArtworksInExhibition = new List<ArtworkModel>();
+            foreach (var i in id)
+            {
+                var result = _dbContext
+                .Artworks
+                .Include(y => y.Artist)
+                .First(x => x.Id == i);
+
+                ArtworksInExhibition.Add(result);
+            }
+
+            return ArtworksInExhibition.ToArray();
         }
         public ArtworkModel GetOneArtwork(Guid Id)
         {
@@ -99,16 +116,32 @@ namespace OnlineArtGallery.Web.Data.Managers
         }
 
 
+        internal void AddOrder(string address, ArtworkModel artwork, UserModel user)
+        {
+            var item = new OrderModel()
+            {
+                Address = address,
+                Date = DateTime.Now,
+                Artwork = artwork,               
+                User = user
+            };
 
-        internal void EditAfterBuying(Guid id)
+            _dbContext.Orders.Add(item);
+            _dbContext.SaveChanges();
+        }
+        internal void EditAvailabilityAfterBuying(Guid id)
         {
             var item = _dbContext.Artworks.First(x => x.Id == id);
             item.Availability = false;
 
             _dbContext.SaveChanges();
         }
+        public UserModel GetOneUser(string Id)
+        {
+            var item = _dbContext.Users.First(x => x.Id == Id);
 
-
+            return item;
+        }
 
 
 

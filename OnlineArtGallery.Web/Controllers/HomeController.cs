@@ -2,11 +2,7 @@
 using Microsoft.Extensions.Logging;
 using OnlineArtGallery.Web.Data.Managers;
 using OnlineArtGallery.Web.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OnlineArtGallery.Web.Controllers
 {
@@ -21,9 +17,16 @@ namespace OnlineArtGallery.Web.Controllers
             _artistDataManager = artistDataManager;
         }
 
-        public IActionResult Index()
+
+        public IActionResult Index(HomeModel model = null)
         {
-            return View();
+            if (model == null)
+            {
+                model = new HomeModel();
+            }
+
+            return View(model);
+
         }
 
         public IActionResult Privacy()
