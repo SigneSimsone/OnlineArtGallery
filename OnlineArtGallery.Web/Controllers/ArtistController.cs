@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineArtGallery.Web.Data.Managers;
 using OnlineArtGallery.Web.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OnlineArtGallery.Web.Controllers
 {
@@ -24,11 +26,26 @@ namespace OnlineArtGallery.Web.Controllers
         {
             ArtistModel[] artists = _artistDataManager.GetArtists();
             var userId = _userManager.GetUserId(User);
+
             ArtistViewModel viewModel = new ArtistViewModel();
             viewModel.Artists = artists;
             viewModel.UserId = userId;
 
             return View(viewModel);
+        }
+
+        [HttpGet]
+        public IActionResult ShowFilteredArtists(Guid[] artistsId)
+        {
+            var userId = _userManager.GetUserId(User);
+            ArtistModel[] artists = _artistDataManager.GetArtists(artistsId.ToList());
+
+            ArtistViewModel viewModel = new ArtistViewModel();            
+            viewModel.Artists = artists;
+            viewModel.UserId = userId;
+
+            return View("Index", viewModel);
+
         }
 
         [HttpPost]
@@ -91,6 +108,7 @@ namespace OnlineArtGallery.Web.Controllers
         [HttpPost]
         public IActionResult Delete(Guid ArtistId)
         {
+
             _artistDataManager.Delete(ArtistId);
 
             return RedirectToAction(nameof(Index));

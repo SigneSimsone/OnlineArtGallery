@@ -1,5 +1,6 @@
 ﻿@model ArtistViewModel
 
+<h5>Add new artist:</h5>
 <form asp-action="AddArtist" method="post">
     <label for="new-name">Name:</label>
     <input type="text" id="new-name" name="name" />
@@ -9,6 +10,24 @@
     <input type="text" id="new-place" name="place" />
     <input type="submit" value="Submit" />
 </form>
+
+<h5>Search artists:</h5>
+<form asp-controller="Search" asp-action="SearchArtists" method="post">
+    <label for="search-name">Name:</label>
+    <input type="text" id="search-name" name="name" />
+
+    <label for="search-surname">Surname:</label>
+    <input type="text" id="search-surname" name="surname" />
+
+    <label for="search-place">Place Of Birth:</label>
+    <input type="text" id="search-place" name="place" />
+
+    <label for="search-style">Style:</label>
+    <input type="text" id="search-style" name="style" />
+
+    <input type="submit" value="Submit" />
+</form>
+
 
 @if (Model != null && Model.Artists.Length > 0)
 {
