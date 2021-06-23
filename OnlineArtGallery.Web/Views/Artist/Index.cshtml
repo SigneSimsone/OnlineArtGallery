@@ -1,16 +1,18 @@
 ﻿@model ArtistViewModel
 
-<h5>Add new artist:</h5>
-<form asp-action="AddArtist" method="post">
-    <label for="new-name">Name:</label>
-    <input type="text" id="new-name" name="name" />
-    <label for="new-surname">Surname:</label>
-    <input type="text" id="new-surname" name="surname" />
-    <label for="new-place">Place Of Birth:</label>
-    <input type="text" id="new-place" name="place" />
-    <input type="submit" value="Submit" />
-</form>
-
+@if (User.IsInRole("Admin"))
+{
+    <h5>Add new artist:</h5>
+    <form asp-action="AddArtist" method="post">
+        <label for="new-name">Name:</label>
+        <input type="text" id="new-name" name="name" />
+        <label for="new-surname">Surname:</label>
+        <input type="text" id="new-surname" name="surname" />
+        <label for="new-place">Place Of Birth:</label>
+        <input type="text" id="new-place" name="place" />
+        <input type="submit" value="Submit" />
+    </form>
+}
 <h5>Search artists:</h5>
 <form asp-controller="Search" asp-action="SearchArtists" method="post">
     <label for="search-name">Name:</label>
@@ -77,18 +79,21 @@
                             </td>
                         }
                     }
-                    <td>
-                        <form asp-action="Edit" method="get">
-                            <input type="submit" value="Edit" />
-                            @Html.Hidden("ArtistId", artist.Id)
-                        </form>
-                    </td>
-                    <td>
-                        <form asp-action="Delete" method="post">
-                            <input type="submit" value="Delete" />
-                            @Html.Hidden("ArtistId", artist.Id)
-                        </form>
-                    </td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>
+                            <form asp-action="Edit" method="get">
+                                <input type="submit" value="Edit" />
+                                @Html.Hidden("ArtistId", artist.Id)
+                            </form>
+                        </td>
+                        <td>
+                            <form asp-action="Delete" method="post">
+                                <input type="submit" value="Delete" />
+                                @Html.Hidden("ArtistId", artist.Id)
+                            </form>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>

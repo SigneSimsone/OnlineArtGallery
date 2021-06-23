@@ -4,12 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineArtGallery.Web.Data.Managers;
 using OnlineArtGallery.Web.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace OnlineArtGallery.Web.Controllers
 {
-    [Authorize]
     public class ArtistController : Controller
     {
         private readonly ArtistDataManager _artistDataManager;
@@ -40,7 +38,7 @@ namespace OnlineArtGallery.Web.Controllers
             var userId = _userManager.GetUserId(User);
             ArtistModel[] artists = _artistDataManager.GetArtists(artistsId.ToList());
 
-            ArtistViewModel viewModel = new ArtistViewModel();            
+            ArtistViewModel viewModel = new ArtistViewModel();
             viewModel.Artists = artists;
             viewModel.UserId = userId;
 
@@ -48,6 +46,7 @@ namespace OnlineArtGallery.Web.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult AddArtist(string name, string surname, string place)
         {
@@ -66,6 +65,7 @@ namespace OnlineArtGallery.Web.Controllers
             return View("OneArtist", model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Edit(Guid ArtistId, string name, string surname, string place)
         {
@@ -75,6 +75,7 @@ namespace OnlineArtGallery.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(Guid ArtistId)
         {
@@ -85,6 +86,7 @@ namespace OnlineArtGallery.Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "RegisteredUser")]
         [HttpPost]
         public IActionResult Favorite(Guid ArtistId)
         {
@@ -95,6 +97,7 @@ namespace OnlineArtGallery.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "RegisteredUser")]
         [HttpPost]
         public IActionResult Unfavorite(Guid ArtistId)
         {
@@ -105,6 +108,7 @@ namespace OnlineArtGallery.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Delete(Guid ArtistId)
         {

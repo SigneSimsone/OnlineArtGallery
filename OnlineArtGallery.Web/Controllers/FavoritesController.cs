@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineArtGallery.Web.Data.Managers;
 using OnlineArtGallery.Web.Models;
@@ -6,6 +7,7 @@ using System;
 
 namespace OnlineArtGallery.Web.Controllers
 {
+    [Authorize(Roles = "RegisteredUser")]
     public class FavoritesController : Controller
     {
         private readonly ArtworkDataManager _artworkDataManager;
