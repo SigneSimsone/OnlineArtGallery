@@ -14,6 +14,7 @@
                 <th>@Html.DisplayNameFor(x => x.Type)</th>
                 <th>@Html.DisplayNameFor(x => x.Price)</th>
                 <th>@Html.DisplayNameFor(x => x.Availability)</th>
+                <th>Image</th>
                 <th>Feedback</th>
             </tr>
         </thead>
@@ -33,7 +34,7 @@
                 <td>@Model.Type</td>
                 <td>@Model.Price</td>
                 <td>@Model.Availability</td>
-
+                <td><img src="@Model.FilePath" width="200" alt="error"></td>
 
                 <td>
                     <form asp-action="AddFeedback" method="post">

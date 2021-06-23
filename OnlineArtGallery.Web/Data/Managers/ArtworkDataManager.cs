@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OnlineArtGallery.Web.Data.Requests;
 using OnlineArtGallery.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,18 @@ namespace OnlineArtGallery.Web.Data.Managers
 
             return result;
         }
+
+        public ArtworkModel[] GetArtworks(List<Guid> artworksId)
+        {
+            var result = _dbContext
+                .Artworks
+                .Include(x => x.Users)
+                .Include(x => x.Artist)
+                .Where(x => artworksId.Contains(x.Id))
+                .ToArray();
+
+            return result;
+        }
         public ArtworkModel[] GetArtworksForExhibition(List<Guid> id)
         {
             List<ArtworkModel> ArtworksInExhibition = new List<ArtworkModel>();
@@ -41,18 +54,19 @@ namespace OnlineArtGallery.Web.Data.Managers
 
             return ArtworksInExhibition.ToArray();
         }
-        public ArtworkModel GetOneArtwork(Guid Id)
+        public ArtworkModel GetOneArtwork(Guid id)
         {
             var item = _dbContext.Artworks.Include(x => x.Users)
-                                          .Include(y => y.Feedbacks)
-                                          .Include(z => z.Artist)
-                                          .Include(c => c.Style)
-                                          .First(x => x.Id == Id);
+                                          .Include(x => x.Feedbacks)
+                                          .Include(x => x.Artist)
+                                          .Include(x => x.Style)
+                                          .Include(x => x.Exhibitions)
+                                          .First(x => x.Id == id);
 
             return item;
         }
 
-        internal void AddArtwork(string title, ArtistModel artist, StyleModel style, int year, string description, string type, float price, bool availability)
+        internal void AddArtwork(string title, ArtistModel artist, StyleModel style, int year, string description, string type, float price, bool availability, string filePath)
         {
             var item = new ArtworkModel()
             {
@@ -63,14 +77,15 @@ namespace OnlineArtGallery.Web.Data.Managers
                 Description = description,
                 Type = type,
                 Price = price,
-                Availability = availability
+                Availability = availability,
+                FilePath = filePath
             };
 
             _dbContext.Artworks.Add(item);
             _dbContext.SaveChanges();
         }
 
-        internal void Edit(Guid id, string title, ArtistModel artist, StyleModel style, int year, string description, string type, float price, bool availability)
+        internal void Edit(Guid id, string title, ArtistModel artist, StyleModel style, int year, string description, string type, float price, bool availability, string filePath)
         {
             var item = _dbContext.Artworks.First(x => x.Id == id);
             item.Title = title;
@@ -81,6 +96,7 @@ namespace OnlineArtGallery.Web.Data.Managers
             item.Type = type;
             item.Price = price;
             item.Availability = availability;
+            item.FilePath = filePath;
 
             _dbContext.SaveChanges();
         }
@@ -109,9 +125,27 @@ namespace OnlineArtGallery.Web.Data.Managers
 
         internal void Delete(Guid id)
         {
-            var item = _dbContext.Artworks.First(x => x.Id == id);
-            _dbContext.Artworks.Remove(item);
+            var item = _dbContext
+                .Artworks
+                .Include(x => x.Users)
+                .Include(x => x.Feedbacks)
+                .Include(x => x.Orders)
+                .Include(x => x.Exhibitions)
+                .First(x => x.Id == id);
 
+            item.Users.Clear();
+            _dbContext.SaveChanges();
+
+            item.Feedbacks.Clear();
+            _dbContext.SaveChanges();
+
+            item.Orders.Clear();
+            _dbContext.SaveChanges();
+
+            item.Exhibitions.Clear();
+            _dbContext.SaveChanges();
+
+            _dbContext.Artworks.Remove(item);
             _dbContext.SaveChanges();
         }
 
@@ -122,7 +156,7 @@ namespace OnlineArtGallery.Web.Data.Managers
             {
                 Address = address,
                 Date = DateTime.Now,
-                Artwork = artwork,               
+                Artwork = artwork,
                 User = user
             };
 
@@ -208,6 +242,64 @@ namespace OnlineArtGallery.Web.Data.Managers
 
             return item;
         }
+
+
+        internal ArtworkModel[] SearchArtwork(ArtworkSearchRequest model)
+        {
+            var artworks = _dbContext
+                .Artworks
+                .Include(x => x.Artist)
+                .Include(x => x.Style)
+                .AsQueryable();
+
+            if (model.Title != "" && model.Title != null)
+            {
+                artworks = artworks.Where(x => x.Title.Contains(model.Title));
+            }
+
+            if (model.Artist != null && model.Artist.Name != "" && model.Artist != null)
+            {
+                artworks = artworks.Where(x => x.Artist.Name.Contains(model.Artist.Name));
+            }
+
+            if (model.Artist != null && model.Artist.Surname != "" && model.Artist.Surname != null)
+            {
+                artworks = artworks.Where(x => x.Artist.Surname.Contains(model.Artist.Surname));
+            }
+
+            if (model.Style != null && model.Style.Style != "" && model.Style.Style != null)
+            {
+                artworks = artworks.Where(x => x.Style.Style.Contains(model.Style.Style));
+            }
+
+            if (model.Year != 0)
+            {
+                artworks = artworks.Where(x => x.Year == model.Year);
+            }
+
+            if (model.Type != "" && model.Type != null)
+            {
+                artworks = artworks.Where(x => x.Type.Contains(model.Type));
+            }
+
+            if (model.Price != 0)
+            {
+                artworks = artworks.Where(x => x.Price <= model.Price);
+            }
+
+            if (model.Availability == 0)
+            {
+                artworks = artworks.Where(x => x.Availability == false);
+            }
+
+            if (model.Availability == 1)
+            {
+                artworks = artworks.Where(x => x.Availability == true);
+            }
+
+            return artworks.ToArray();
+        }
+
     }
 }
 

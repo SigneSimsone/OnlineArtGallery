@@ -15,6 +15,7 @@ namespace OnlineArtGallery.Web.Models
         public string Type { get; set; }
         public float Price { get; set; }
         public bool Availability { get; set; }
+        public string FilePath { get; set; }
 
         public ArtistModel Artist { get; set; }
         public StyleModel Style { get; set; }
@@ -27,5 +28,7 @@ namespace OnlineArtGallery.Web.Models
         public ICollection<UserModel> Users { get; set; }
         public ICollection<FeedbackModel> Feedbacks { get; set; }
         public ICollection<ExhibitionModel> Exhibitions { get; set; }
+        public ICollection<OrderModel> Orders { get; set; }
+
     }
 }
