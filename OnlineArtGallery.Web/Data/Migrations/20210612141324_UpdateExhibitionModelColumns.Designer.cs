@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineArtGallery.Web.Data;
 
 namespace OnlineArtGallery.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210612141324_UpdateExhibitionModelColumns")]
+    partial class UpdateExhibitionModelColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,9 +247,6 @@ namespace OnlineArtGallery.Web.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FilePath")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
@@ -270,28 +269,6 @@ namespace OnlineArtGallery.Web.Data.Migrations
                     b.HasIndex("StyleId");
 
                     b.ToTable("Artworks");
-                });
-
-            modelBuilder.Entity("OnlineArtGallery.Web.Models.AuditModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Action")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Audits");
                 });
 
             modelBuilder.Entity("OnlineArtGallery.Web.Models.ExhibitionModel", b =>
@@ -582,15 +559,6 @@ namespace OnlineArtGallery.Web.Data.Migrations
                     b.Navigation("Style");
                 });
 
-            modelBuilder.Entity("OnlineArtGallery.Web.Models.AuditModel", b =>
-                {
-                    b.HasOne("OnlineArtGallery.Web.Models.UserModel", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("OnlineArtGallery.Web.Models.FeedbackModel", b =>
                 {
                     b.HasOne("OnlineArtGallery.Web.Models.ArtworkModel", "Artwork")
@@ -609,7 +577,7 @@ namespace OnlineArtGallery.Web.Data.Migrations
             modelBuilder.Entity("OnlineArtGallery.Web.Models.OrderModel", b =>
                 {
                     b.HasOne("OnlineArtGallery.Web.Models.ArtworkModel", "Artwork")
-                        .WithMany("Orders")
+                        .WithMany()
                         .HasForeignKey("ArtworkId");
 
                     b.HasOne("OnlineArtGallery.Web.Models.UserModel", "User")
@@ -629,8 +597,6 @@ namespace OnlineArtGallery.Web.Data.Migrations
             modelBuilder.Entity("OnlineArtGallery.Web.Models.ArtworkModel", b =>
                 {
                     b.Navigation("Feedbacks");
-
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("OnlineArtGallery.Web.Models.StyleModel", b =>
