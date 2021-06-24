@@ -1,0 +1,36 @@
+﻿@model SearchViewModel
+
+<h5>Search artworks:</h5>
+<form asp-controller="Search" asp-action="SearchArtworks" method="post">
+    <label asp-for="Title"></label>
+    <input asp-for="Title" class="form-control" />
+
+    <label asp-for="SelectedArtist">Artist</label>
+    <select asp-for="SelectedArtist" asp-items="Model.ArtistDropdown" class="form-control">
+        <option value="">Select artist</option>
+    </select>
+
+    <label asp-for="SelectedArtist">Style</label>
+    <select asp-for="SelectedArtist" asp-items="Model.StyleDropdown" class="form-control">
+        <option value="">Select style</option>
+    </select>
+
+    <label asp-for="Year"></label>
+    <input asp-for="Year" class="form-control" />
+
+    <label asp-for="Description"></label>
+    <input asp-for="Description" class="form-control" />
+
+    <label asp-for="Type"></label>
+    <input asp-for="Type" class="form-control" />
+
+    <label asp-for="Price"></label>
+    <input asp-for="Price" class="form-control" />
+
+    <label asp-for="SelectedAvailability">Availability</label>
+    <select asp-for="SelectedAvailability" asp-items="Model.AvailabilityDropdown" class="form-control">
+        <option value="">Select availability</option>
+    </select>
+
+    <input type="submit" value="Submit" />
+</form>

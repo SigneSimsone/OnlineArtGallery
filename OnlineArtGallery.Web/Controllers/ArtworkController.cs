@@ -36,6 +36,7 @@ namespace OnlineArtGallery.Web.Controllers
         {
             ArtworkModel[] artworks = _artworkDataManager.GetArtworks();
             var userId = _userManager.GetUserId(User);
+
             ArtworkViewModel viewModel = new ArtworkViewModel();
             viewModel.Artworks = artworks;
             viewModel.UserId = userId;
@@ -58,8 +59,6 @@ namespace OnlineArtGallery.Web.Controllers
             viewModel.AvailabilityDropdown = new SelectList(availablityList, "Id", "Availability");
 
 
-
-
             return View(viewModel);
         }
 
@@ -72,6 +71,15 @@ namespace OnlineArtGallery.Web.Controllers
             ArtworkViewModel viewModel = new ArtworkViewModel();
             viewModel.Artworks = artworks;
             viewModel.UserId = userId;
+
+            ArtistModel[] artists = _artistDataManager.GetArtists();
+            var artistList = artists.Select(x => new { x.Id, x.FullName }).ToList();
+            viewModel.ArtistDropdown = new SelectList(artistList, "Id", "FullName");
+
+
+            StyleModel[] styles = _artworkDataManager.GetStyles();
+            var styleList = styles.Select(x => new { x.Id, x.Style }).ToList();
+            viewModel.StyleDropdown = new SelectList(styleList, "Id", "Style");
 
             var availablityList = new[] {
                 new {Id = 0, Availability = "Unavailable"},
