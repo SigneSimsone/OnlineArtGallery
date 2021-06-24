@@ -1,0 +1,107 @@
+﻿@model ExhibitionViewModel
+
+@if (User.IsInRole("Admin"))
+{
+    <h5>Add new exhibition:</h5>
+    <form asp-action="AddExhibition" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span><br />
+
+        <label asp-for="SelectedArtworks">Artworks</label>
+        <select asp-for="SelectedArtworks" asp-items="Model.ArtworkDropdown" class="form-control" multiple="multiple">
+            <option value="">Select Artworks</option>
+        </select>
+        <span asp-validation-for="SelectedArtworks" class="text-danger"></span><br />
+
+        <label asp-for="StartDate">Start Date</label>
+        <input asp-for="StartDate" class="form-control" />
+
+        <label asp-for="EndDate">End Date</label>
+        <input asp-for="EndDate" class="form-control" />
+
+        <input type="submit" value="Submit" />
+    </form>
+}
+<h5>Search exhibitions:</h5>
+<form asp-controller="Search" asp-action="SearchExhibitions" method="post">
+    <label for="search-title">Title:</label>
+    <input type="text" id="search-title" name="title" />
+
+    <label for="search-name">Artist name:</label>
+    <input type="text" id="search-name" name="name" />
+
+    <label for="search-surname">Artist surname:</label>
+    <input type="text" id="search-surname" name="surname" />
+
+    <label for="search-artworkTitle">Artwork title:</label>
+    <input type="text" id="search-artworkTitle" name="artworkTitle" />
+
+    <label for="search-startDate">Start date:</label>
+    <input type="datetime-local" id="search-startDate" name="startDate" />
+
+    <label for="search-endDate">End date:</label>
+    <input type="datetime-local" id="search-endDate" name="endDate" />
+
+    <input type="submit" value="Submit" />
+</form>
+
+
+@if (Model != null)
+{
+    <h2 id="exhibitions">Exhibitions</h2>
+    <table id="ExhibitionsTable">
+        <thead id="thead">
+            <tr>
+                <th>@Html.DisplayNameFor(x => x.Exhibitions[0].Title)</th>
+                <th>@Html.DisplayNameFor(x => x.Exhibitions[0].Artists)</th>
+                <th>@Html.DisplayNameFor(x => x.Exhibitions[0].Artworks)</th>
+                <th>@Html.DisplayNameFor(x => x.Exhibitions[0].StartDate)</th>
+                <th>@Html.DisplayNameFor(x => x.Exhibitions[0].EndDate)</th>
+                <th>Open</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            @foreach (var exhibition in Model.Exhibitions)
+            {
+                <tr>
+                    <td>@exhibition.Title</td>
+                    @foreach (var artist in exhibition.Artists)
+                    {
+                        <td>@artist.FullName</td>
+                    }
+                    @foreach (var artwork in exhibition.Artworks)
+                    {
+                        <td>@artwork.Title</td>
+                    }
+
+                    <td>@exhibition.StartDate.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@exhibition.EndDate.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>
+                        <form asp-action="OpenExhibition" method="get">
+                            <input type="submit" value="Open" />
+                            @Html.Hidden("ExhibitionId", exhibition.Id)
+                        </form>
+                    </td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>
+                            <form asp-action="Edit" method="get">
+                                <input type="submit" value="Edit" />
+                                @Html.Hidden("ExhibitionId", exhibition.Id)
+                            </form>
+                        </td>
+                        <td>
+                            <form asp-action="Delete" method="post">
+                                <input type="submit" value="Delete" />
+                                @Html.Hidden("ExhibitionId", exhibition.Id)
+                            </form>
+                        </td>
+                    }
+                </tr>
+            }
+    </table>
+}
