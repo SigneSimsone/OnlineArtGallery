@@ -39,6 +39,10 @@ namespace OnlineArtGallery.Web
 
             services.AddScoped<ArtistDataManager>();
             services.AddScoped<ArtworkDataManager>();
+            services.AddScoped<ExhibitionDataManager>();
+            services.AddScoped<AdminDataManager>();
+            services.AddScoped<AuditDataManager>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
