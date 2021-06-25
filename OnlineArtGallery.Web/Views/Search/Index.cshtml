@@ -1,36 +1,80 @@
 ﻿@model SearchViewModel
 
-<h5>Search artworks:</h5>
-<form asp-controller="Search" asp-action="SearchArtworks" method="post">
-    <label asp-for="Title"></label>
-    <input asp-for="Title" class="form-control" />
+    <h5>Search artists:</h5>
+    <form asp-controller="Search" asp-action="SearchArtists" method="post">
+        <label for="search-name">Name:</label>
+        <input type="text" id="search-name" name="name" />
 
-    <label asp-for="SelectedArtist">Artist</label>
-    <select asp-for="SelectedArtist" asp-items="Model.ArtistDropdown" class="form-control">
-        <option value="">Select artist</option>
-    </select>
+        <label for="search-surname">Surname:</label>
+        <input type="text" id="search-surname" name="surname" />
 
-    <label asp-for="SelectedArtist">Style</label>
-    <select asp-for="SelectedArtist" asp-items="Model.StyleDropdown" class="form-control">
-        <option value="">Select style</option>
-    </select>
+        <label for="search-place">Place Of Birth:</label>
+        <input type="text" id="search-place" name="place" />
 
-    <label asp-for="Year"></label>
-    <input asp-for="Year" class="form-control" />
+        <label for="search-style">Style:</label>
+        <input type="text" id="search-style" name="style" />
 
-    <label asp-for="Description"></label>
-    <input asp-for="Description" class="form-control" />
+        <input type="submit" value="Submit" />
+    </form>
 
-    <label asp-for="Type"></label>
-    <input asp-for="Type" class="form-control" />
+    <br />
 
-    <label asp-for="Price"></label>
-    <input asp-for="Price" class="form-control" />
+    <h5>Search artworks:</h5>
+    <form asp-controller="Search" asp-action="SearchArtworks" method="post">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
 
-    <label asp-for="SelectedAvailability">Availability</label>
-    <select asp-for="SelectedAvailability" asp-items="Model.AvailabilityDropdown" class="form-control">
-        <option value="">Select availability</option>
-    </select>
+        <label asp-for="SelectedArtist">Artist</label>
+        <select asp-for="SelectedArtist" asp-items="Model.ArtistDropdown" class="form-control">
+            <option value="aaa">Select artist</option>
+        </select>
 
-    <input type="submit" value="Submit" />
-</form>
+        <label asp-for="SelectedArtist">Style</label>
+        <select asp-for="SelectedArtist" asp-items="Model.StyleDropdown" class="form-control">
+            <option value="aaaa">Select style</option>
+        </select>
+
+        <label asp-for="Year"></label>
+        <input asp-for="Year" class="form-control" />
+
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control" />
+
+        <label asp-for="Type"></label>
+        <input asp-for="Type" class="form-control" />
+
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" />
+
+        <label asp-for="SelectedAvailability">Availability</label>
+        <select asp-for="SelectedAvailability" asp-items="Model.AvailabilityDropdown" class="form-control">
+            <option value="">Select availability</option>
+        </select>
+
+        <input type="submit" value="Submit" />
+    </form>
+
+    <br />
+
+    <h5>Search exhibitions:</h5>
+    <form asp-controller="Search" asp-action="SearchExhibitions" method="post">
+        <label for="search-title">Title:</label>
+        <input type="text" id="search-title" name="title" />
+
+        <label for="search-name">Artist name:</label>
+        <input type="text" id="search-name" name="name" />
+
+        <label for="search-surname">Artist surname:</label>
+        <input type="text" id="search-surname" name="surname" />
+
+        <label for="search-artworkTitle">Artwork title:</label>
+        <input type="text" id="search-artworkTitle" name="artworkTitle" />
+
+        <label for="search-startDate">Start date:</label>
+        <input type="datetime-local" id="search-startDate" name="startDate" />
+
+        <label for="search-endDate">End date:</label>
+        <input type="datetime-local" id="search-endDate" name="endDate" />
+
+        <input type="submit" value="Submit" />
+    </form>

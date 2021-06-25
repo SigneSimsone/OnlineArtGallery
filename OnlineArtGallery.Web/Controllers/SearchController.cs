@@ -24,7 +24,6 @@ namespace OnlineArtGallery.Web.Controllers
 
         public IActionResult Index()
         {
-            //ModelState.Remove("SearchSelectedArtist");
             SearchViewModel viewModel = new SearchViewModel();
 
             ArtistModel[] artists = _artistDataManager.GetArtists();

@@ -34,7 +34,7 @@
                 <td>@Model.Type</td>
                 <td>@Model.Price</td>
                 <td>@Model.Availability</td>
-                <td><img src="@Model.FilePath" width="200" alt="error"></td>
+                <td><img src="@Model.FilePath" width="200"></td>
 
                 <td>
                     <form asp-action="AddFeedback" method="post">
@@ -61,12 +61,15 @@
     {
         <p>@feedback.Comment</p>
         <p>@feedback.Date</p>
-        <td>
-            <form asp-action="DeleteFeedback" method="post">
-                <input type="submit" value="Delete" />
-                @Html.Hidden("FeedbackId", feedback.Id)
-                @Html.Hidden("ArtworkId", Model.Id)
-            </form>
-        </td>
+        @if (User.IsInRole("Admin"))
+        {
+            <td>
+                <form asp-action="DeleteFeedback" method="post">
+                    <input type="submit" value="Delete" />
+                    @Html.Hidden("FeedbackId", feedback.Id)
+                    @Html.Hidden("ArtworkId", Model.Id)
+                </form>
+            </td>
+        }
     }
 }

@@ -53,41 +53,6 @@
     </form>
 }
 
-<h5>Search artworks:</h5>
-<form asp-controller="Search" asp-action="SearchArtworks" method="post">
-    <label asp-for="Title"></label>
-    <input asp-for="Title" class="form-control" />
-
-    <label asp-for="SelectedArtist">Artist</label>
-    <select asp-for="SelectedArtist" asp-items="Model.ArtistDropdown" class="form-control">
-        <option value="">Select artist</option>
-    </select>
-
-    <label asp-for="SelectedStyle">Style</label>
-    <select asp-for="SelectedStyle" asp-items="Model.StyleDropdown" class="form-control">
-        <option value="">Select style</option>
-    </select>
-
-    <label asp-for="Year"></label>
-    <input asp-for="Year" class="form-control" />
-
-    <label asp-for="Description"></label>
-    <input asp-for="Description" class="form-control" />
-
-    <label asp-for="Type"></label>
-    <input asp-for="Type" class="form-control" />
-
-    <label asp-for="Price"></label>
-    <input asp-for="Price" class="form-control" />
-
-    <label asp-for="SelectedAvailability">Availability</label>
-    <select asp-for="SelectedAvailability" asp-items="Model.AvailabilityDropdown" class="form-control">
-        <option value="">Select availability</option>
-    </select>
-
-    <input type="submit" value="Submit" />
-</form>
-
 
 
 @if (Model != null && Model.Artworks.Length > 0)
@@ -98,16 +63,14 @@
             <tr>
                 <th>@Html.DisplayNameFor(x => x.Artworks[0].Title)</th>
                 <th>@Html.DisplayNameFor(x => x.Artworks[0].Artist)</th>
-                <th>@Html.DisplayNameFor(x => x.Artworks[0].Year)</th>
-                <th>@Html.DisplayNameFor(x => x.Artworks[0].Description)</th>
-                <th>@Html.DisplayNameFor(x => x.Artworks[0].Type)</th>
-                <th>@Html.DisplayNameFor(x => x.Artworks[0].Price)</th>
-                <th>@Html.DisplayNameFor(x => x.Artworks[0].Availability)</th>
                 <th>Image</th>
                 <th>Open</th>
                 <th>Favorite</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                @if (User.IsInRole("Admin"))
+                {
+                    <th>Edit</th>
+                    <th>Delete</th>
+                }
             </tr>
         </thead>
         <tbody id="tbody">
@@ -116,11 +79,6 @@
                 <tr>
                     <td>@artwork.Title</td>
                     <td>@artwork.Artist.FullName</td>
-                    <td>@artwork.Year</td>
-                    <td>@artwork.Description</td>
-                    <td>@artwork.Type</td>
-                    <td>@artwork.Price</td>
-                    <td>@artwork.Availability</td>
                     <td><img src="@artwork.FilePath" width="200"></td>
                     <td>
                         <form asp-action="OpenArtwork" method="get">

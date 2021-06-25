@@ -13,22 +13,7 @@
         <input type="submit" value="Submit" />
     </form>
 }
-<h5>Search artists:</h5>
-<form asp-controller="Search" asp-action="SearchArtists" method="post">
-    <label for="search-name">Name:</label>
-    <input type="text" id="search-name" name="name" />
 
-    <label for="search-surname">Surname:</label>
-    <input type="text" id="search-surname" name="surname" />
-
-    <label for="search-place">Place Of Birth:</label>
-    <input type="text" id="search-place" name="place" />
-
-    <label for="search-style">Style:</label>
-    <input type="text" id="search-style" name="style" />
-
-    <input type="submit" value="Submit" />
-</form>
 
 
 @if (Model != null && Model.Artists.Length > 0)
@@ -38,13 +23,15 @@
         <thead id="thead">
             <tr>
                 <th>@Html.DisplayNameFor(x => x.Artists[0].Name)</th>
-                <th>@Html.DisplayNameFor(x => x.Artists[0].Surname)</th>
-                <th>@Html.DisplayNameFor(x => x.Artists[0].PlaceOfBirth)</th>
+                <th>@Html.DisplayNameFor(x => x.Artists[0].Surname)</th>               
                 <th>Open</th>
                 <th>Favorite</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
+                @if (User.IsInRole("Admin"))
+                {
+                    <th>Edit</th>
+                    <th>Delete</th>
+                }
+                </tr>
         </thead>
         <tbody id="tbody">
             @foreach (var artist in Model.Artists)
@@ -52,7 +39,6 @@
                 <tr>
                     <td>@artist.Name</td>
                     <td>@artist.Surname</td>
-                    <td>@artist.PlaceOfBirth</td>
                     <td>
                         <form asp-action="OpenArtist" method="get">
                             <input type="submit" value="Open" />
