@@ -37,6 +37,12 @@ namespace OnlineArtGallery.Web
 
             services.AddControllersWithViews();
 
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            });
+
             services.AddScoped<ArtistDataManager>();
             services.AddScoped<ArtworkDataManager>();
             services.AddScoped<ExhibitionDataManager>();
