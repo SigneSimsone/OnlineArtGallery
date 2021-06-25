@@ -28,16 +28,24 @@ namespace OnlineArtGallery.Web.Controllers
         {
             UserModel[] users = _adminDataManager.GetUsers();
 
-
             AdminViewModel viewModel = new AdminViewModel();
-            viewModel.Users = users;
+            viewModel.Users = users.Select(x => new UserViewModel()
+            {
+                Artists = x.Artists,
+                Artworks = x.Artworks,
+                Feedbacks = x.Feedbacks,
+                IsBlocked = x.IsBlocked,
+                UserName = x.UserName,
+                Email = x.Email,
+                Name = x.Name,
+                Surname = x.Surname,
+                Roles = _userManager.GetRolesAsync(x).Result
+            }).ToArray();
 
 
             var userList = users.Select(x => x.Email).ToList();
             viewModel.UserDropdown = new SelectList(userList, "Email");
 
-
-            //var roles = _roleManager.Roles.ToList();
             var rolesList = _roleManager.Roles.Select(x => x.Name).ToList();
             viewModel.RoleDropdown = new SelectList(rolesList, "Name");
 

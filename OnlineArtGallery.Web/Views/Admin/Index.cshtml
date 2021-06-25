@@ -35,13 +35,10 @@
             <tr>
                 <th>@Html.DisplayNameFor(x => x.Users[0].Name)</th>
                 <th>@Html.DisplayNameFor(x => x.Users[0].Surname)</th>
-                <th>@Html.DisplayNameFor(x => x.Users[0].UserName)</th>
                 <th>@Html.DisplayNameFor(x => x.Users[0].Email)</th>
-                <th>@Html.DisplayNameFor(x => x.Users[0].PhoneNumber)</th>
-                <th>@Html.DisplayNameFor(x => x.Users[0].IsBlocked)</th>
 
                 <th>User Roles</th>
-                <th>Block</th>
+                <th>Block User</th>
             </tr>
         </thead>
         <tbody id="tbody">
@@ -50,10 +47,8 @@
                 <tr>
                     <td>@user.Name</td>
                     <td>@user.Surname</td>
-                    <td>@user.UserName</td>
                     <td>@user.Email</td>
-                    <td>@user.PhoneNumber</td>
-                    <td>@user.IsBlocked</td>
+                    <td>@user.RolesAsString</td>
 
                     @{
                         if (user.IsBlocked == false)
