@@ -1,4 +1,5 @@
 ﻿@model AuditViewModel
+@inject IViewLocalizer Localizer
 
 @if (Model != null)
 {
@@ -6,9 +7,9 @@
     <table id="AuditsTable">
         <thead id="thead">
             <tr>
-                <th>@Html.DisplayNameFor(x => x.Audits[0].User)</th>
-                <th>@Html.DisplayNameFor(x => x.Audits[0].Action)</th>
-                <th>@Html.DisplayNameFor(x => x.Audits[0].DateTime)</th>
+                <th>@Localizer["User"]</th>
+                <th>@Localizer["Action"]</th>
+                <th>@Localizer["DateTime"]</th>
             </tr>
         </thead>
         <tbody id="tbody">
