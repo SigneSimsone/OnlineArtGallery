@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -23,6 +23,14 @@
   </ItemGroup>
 
   <ItemGroup>
+	<Folder Include="Resources\Views\Admin\" />
+	<Folder Include="Resources\Views\Artist\" />
+	<Folder Include="Resources\Views\Artwork\" />
+    <Folder Include="Resources\Views\Audit\" />
+	<Folder Include="Resources\Views\Exhibition\" />
+    <Folder Include="Resources\Views\Favorites\" />
+    <Folder Include="Resources\Views\Home\" />
+    <Folder Include="Resources\Views\Search\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
