@@ -13,7 +13,6 @@
 
     <label asp-for="SelectedArtworks">@Localizer["Artworks"]</label>
     <select asp-for="SelectedArtworks" asp-items="Model.ArtworkDropdown" class="form-control" multiple="multiple">
-        <option value="">@Localizer["Select artworks"]</option>
     </select>
     <span asp-validation-for="SelectedArtworks" class="text-danger"></span><br />
 

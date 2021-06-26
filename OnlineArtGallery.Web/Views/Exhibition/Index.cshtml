@@ -3,7 +3,7 @@
 
 @if (User.IsInRole("Admin"))
 {
-<h5>@Localizer["Add exhibition"]:</h5>
+    <h5>@Localizer["Add exhibition"]:</h5>
     <form asp-action="AddExhibition" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -13,7 +13,6 @@
 
         <label asp-for="SelectedArtworks">@Localizer["Artworks"]</label>
         <select asp-for="SelectedArtworks" asp-items="Model.ArtworkDropdown" class="form-control" multiple="multiple">
-            <option value="">@Localizer["Select artworks"]</option>
         </select>
         <span asp-validation-for="SelectedArtworks" class="text-danger"></span><br />
 
@@ -31,7 +30,7 @@
 
 @if (Model != null)
 {
-<h2 id="exhibitions">@Localizer["Exhibitions"]</h2>
+    <h2 id="exhibitions">@Localizer["Exhibitions"]</h2>
     <table id="ExhibitionsTable">
         <thead id="thead">
             <tr>
@@ -41,7 +40,7 @@
                 <th>@Localizer["Open"]</th>
                 @if (User.IsInRole("Admin"))
                 {
-            <th>@Localizer["Edit"]</th>
+                    <th>@Localizer["Edit"]</th>
                 }
             </tr>
         </thead>

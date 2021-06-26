@@ -49,7 +49,6 @@
 
     <label asp-for="SelectedAvailability">@Localizer["Availability"]</label>
     <select asp-for="SelectedAvailability" asp-items="Model.AvailabilityDropdown" class="form-control">
-        <option value="">@Localizer["Select availability"]</option>
     </select>
 
     <input type="submit" value="@Localizer["Submit"]" />
