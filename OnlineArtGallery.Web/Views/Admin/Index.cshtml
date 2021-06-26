@@ -1,44 +1,45 @@
 ﻿@model AdminViewModel
+@inject IViewLocalizer Localizer
 
-<h5>Add a role to a user:</h5>
+<h5>@Localizer["Role to user"]:</h5>
 <form asp-action="AddUserToRole" method="post">
 
-    <label asp-for="SelectedUser">User</label>
+    <label asp-for="SelectedUser">@Localizer["User"]</label>
     <select asp-for="SelectedUser" asp-items="Model.UserDropdown" class="form-control">
-        <option value="">Select user</option>
+        <option value="">@Localizer["Select user"]</option>
     </select>
 
-    <label asp-for="SelectedRole">Role</label>
+    <label asp-for="SelectedRole">@Localizer["Role"]</label>
     <select asp-for="SelectedRole" asp-items="Model.RoleDropdown" class="form-control">
-        <option value="">Select role</option>
+        <option value="">@Localizer["Select role"]</option>
     </select>
 
-    <input type="submit" value="Submit" />
+    <input type="submit" value="@Localizer["Submit"]" />
 </form>
 
 
-<h5>Create new role:</h5>
+<h5>@Localizer["Create role"]:</h5>
 <form asp-action="CreateRole" method="post">
 
-    <label asp-for="NewRole">New Role</label>
+    <label asp-for="NewRole">@Localizer["New role"]</label>
     <input asp-for="NewRole" class="form-control" />
 
-    <input type="submit" value="Submit" />
+    <input type="submit" value="@Localizer["Submit"]" />
 </form>
 
 
 @if (Model != null)
 {
-    <h2 id="users">Users</h2>
+<h2 id="users">@Localizer["Users"]</h2>
     <table id="UsersTable">
         <thead id="thead">
             <tr>
-                <th>@Html.DisplayNameFor(x => x.Users[0].Name)</th>
-                <th>@Html.DisplayNameFor(x => x.Users[0].Surname)</th>
-                <th>@Html.DisplayNameFor(x => x.Users[0].Email)</th>
+                <th>@Localizer["Name"]</th>
+                <th>@Localizer["Surname"]</th>
+                <th>@Localizer["Email"]</th>
 
-                <th>User Roles</th>
-                <th>Block User</th>
+                <th>@Localizer["User roles"]</th>
+                <th>@Localizer["Block user"]</th>
             </tr>
         </thead>
         <tbody id="tbody">
@@ -55,7 +56,7 @@
                         {
                             <td>
                                 <form asp-action="Block" method="post">
-                                    <input type="submit" value="Block" />
+                                    <input type="submit" value="@Localizer["Block"]" />
                                     @Html.Hidden("UserId", user.Id)
                                 </form>
                             </td>
@@ -64,7 +65,7 @@
                         {
                             <td>
                                 <form asp-action="Unblock" method="post">
-                                    <input type="submit" value="Unblock" />
+                                    <input type="submit" value="@Localizer["Unblock"]" />
                                     @Html.Hidden("UserId", user.Id)
                                 </form>
                             </td>
