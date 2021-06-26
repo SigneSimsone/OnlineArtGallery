@@ -15,11 +15,11 @@ namespace OnlineArtGallery.Web.Models
 
 
         #region NewExhibitionFields
-        [Required]
+        [Required(ErrorMessage = "Title field error")]
         public string Title { get; set; }
 
 
-        [Required(ErrorMessage = "The Artwork field is required.")]
+        [Required(ErrorMessage = "Artwork field error")]
         public List<Guid> SelectedArtworks { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

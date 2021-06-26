@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Localization;
 using OnlineArtGallery.Web.Data.Managers;
 using OnlineArtGallery.Web.Models;
 using System;
@@ -20,15 +21,16 @@ namespace OnlineArtGallery.Web.Controllers
         private readonly ArtistDataManager _artistDataManager;
         private readonly UserManager<UserModel> _userManager;
         private readonly IWebHostEnvironment _hostingEnv;
+        private readonly IStringLocalizer<Program> _localizer;
 
-
-        public ArtworkController(ArtworkDataManager artworkDataManager, UserManager<UserModel> userManager, ArtistDataManager artistDataManager, IWebHostEnvironment hostingEnv, AuditDataManager auditDataManager)
+        public ArtworkController(ArtworkDataManager artworkDataManager, UserManager<UserModel> userManager, ArtistDataManager artistDataManager, IWebHostEnvironment hostingEnv, AuditDataManager auditDataManager, IStringLocalizer<Program> localizer)
         {
             _artworkDataManager = artworkDataManager;
             _userManager = userManager;
             _artistDataManager = artistDataManager;
             _hostingEnv = hostingEnv;
             _auditDataManager = auditDataManager;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -230,6 +232,12 @@ namespace OnlineArtGallery.Web.Controllers
         [HttpGet]
         public IActionResult OpenArtwork(Guid ArtworkId)
         {
+            if (ArtworkId == Guid.Empty)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+
             // get artwork from database (ArtworkModel)
             ArtworkModel model = _artworkDataManager.GetOneArtwork(ArtworkId);
 
@@ -259,7 +267,7 @@ namespace OnlineArtGallery.Web.Controllers
             _artworkDataManager.EditAvailabilityAfterBuying(ArtworkId);
 
             HomeModel homemodel = new HomeModel();
-            homemodel.Message = "Your Order has been accepted!";
+            homemodel.Message = _localizer["Order accepted"];
 
             return RedirectToAction("Index", "Home", homemodel);
         }

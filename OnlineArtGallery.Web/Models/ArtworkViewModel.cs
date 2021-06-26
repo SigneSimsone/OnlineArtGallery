@@ -19,13 +19,13 @@ namespace OnlineArtGallery.Web.Models
 
 
         #region NewArtworkFields
-        [Required]
+        [Required(ErrorMessage = "Title field error")]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "The Artist field is required.")]
+        [Required(ErrorMessage = "Artist field error")]
         public Guid SelectedArtist { get; set; }
 
-        [Required(ErrorMessage = "The Style field is required.")]
+        [Required(ErrorMessage = "Style field error")]
         public Guid SelectedStyle { get; set; }
         public int Year { get; set; }
         public string Description { get; set; }

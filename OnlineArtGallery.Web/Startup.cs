@@ -39,6 +39,14 @@ namespace OnlineArtGallery.Web
 
             services
                 .AddControllersWithViews()
+                .AddDataAnnotationsLocalization(x =>
+                {
+                    x.DataAnnotationLocalizerProvider = (type, factory) =>
+                    {
+                        return factory.Create(typeof(SharedResource));
+                    };
+                })
+
                 .AddViewLocalization();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
@@ -109,5 +117,9 @@ namespace OnlineArtGallery.Web
                 endpoints.MapRazorPages();
             });
         }
+    }
+
+    internal class SharedResource
+    {
     }
 }
