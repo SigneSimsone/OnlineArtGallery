@@ -121,7 +121,7 @@ namespace OnlineArtGallery.Web.Controllers
                 relativeFilePath = Path.Combine("\\images", fileName);
             }
 
-                     
+
 
             _artworkDataManager.AddArtwork(model.Title, artistmodel, stylemodel, model.Year, model.Description, model.Type, model.Price, model.Availability, relativeFilePath);
 
@@ -155,7 +155,7 @@ namespace OnlineArtGallery.Web.Controllers
             }
 
 
-            
+
 
             _artworkDataManager.Edit(ArtworkId, model.Title, artistmodel, stylemodel, model.Year, model.Description, model.Type, model.Price, model.Availability, relativeFilePath);
 
@@ -265,7 +265,7 @@ namespace OnlineArtGallery.Web.Controllers
         }
 
 
-        //[Authorize(Roles = "RegisteredUser")]
+        [Authorize(Roles = "RegisteredUser")]
         [HttpPost]
         public IActionResult AddFeedback(Guid ArtworkId, string comment)
         {

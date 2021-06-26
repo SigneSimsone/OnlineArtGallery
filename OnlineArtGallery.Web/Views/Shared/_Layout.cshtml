@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -12,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">OnlineArtGallery.Web</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/logo.png" width="100" /></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,41 +22,37 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Artist" asp-action="Index">@Localizer["Artists"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Artwork" asp-action="Index">@Localizer["Artworks"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Artist" asp-action="Index">Artists</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Favorites" asp-action="FavoriteArtists">@Localizer["Favorite artists"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Artwork" asp-action="Index">Artworks</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Favorites" asp-action="FavoriteArtworks">@Localizer["Favorite artworks"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Favorites" asp-action="FavoriteArtists">My Favorite Artists</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Exhibition" asp-action="Index">@Localizer["Exhibitions"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Favorites" asp-action="FavoriteArtworks">My Favorite Artworks</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Exhibition" asp-action="Index">Exhibitions</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Search" asp-action="Index">Search</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Search" asp-action="Index">@Localizer["Search"]</a>
                         </li>
 
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Users</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">@Localizer["Users"]</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Audit" asp-action="Index">Audit</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Audit" asp-action="Index">@Localizer["Audit"]</a>
                             </li>
                         }
+
                     </ul>
                     <partial name="_LoginPartial" />
+                    @await Component.InvokeAsync("LanguageSwitch")
                 </div>
             </div>
         </nav>
@@ -67,7 +65,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - OnlineArtGallery.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - OnlineArtGallery.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["Privacy"]</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
