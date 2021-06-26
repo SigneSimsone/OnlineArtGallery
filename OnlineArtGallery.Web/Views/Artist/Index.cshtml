@@ -1,16 +1,17 @@
 ﻿@model ArtistViewModel
+@inject IViewLocalizer Localizer
 
 @if (User.IsInRole("Admin"))
 {
-    <h5>Add new artist:</h5>
+    <h5>@Localizer["Add artist"]:</h5>
     <form asp-action="AddArtist" method="post">
-        <label for="new-name">Name:</label>
+        <label for="new-name">@Localizer["Name"]:</label>
         <input type="text" id="new-name" name="name" />
-        <label for="new-surname">Surname:</label>
+        <label for="new-surname">@Localizer["Surname"]:</label>
         <input type="text" id="new-surname" name="surname" />
-        <label for="new-place">Place Of Birth:</label>
+        <label for="new-place">@Localizer["Place"]:</label>
         <input type="text" id="new-place" name="place" />
-        <input type="submit" value="Submit" />
+        <input type="submit" value="@Localizer["Submit"]" />
     </form>
 }
 
@@ -18,20 +19,20 @@
 
 @if (Model != null && Model.Artists.Length > 0)
 {
-    <h2 id="artists">Artists</h2>
+    <h2 id="artists">@Localizer["Artists"]</h2>
     <table id="ArtistTable">
         <thead id="thead">
             <tr>
-                <th>@Html.DisplayNameFor(x => x.Artists[0].Name)</th>
-                <th>@Html.DisplayNameFor(x => x.Artists[0].Surname)</th>               
-                <th>Open</th>
-                <th>Favorite</th>
+                <th>@Localizer["Name"]</th>
+                <th>@Localizer["Surname"]</th>
+                <th>@Localizer["Open"]</th>
+                <th>@Localizer["Favorite"]</th>
                 @if (User.IsInRole("Admin"))
                 {
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>@Localizer["Edit"]</th>
+                    <th>@Localizer["Delete"]</th>
                 }
-                </tr>
+            </tr>
         </thead>
         <tbody id="tbody">
             @foreach (var artist in Model.Artists)
@@ -41,7 +42,7 @@
                     <td>@artist.Surname</td>
                     <td>
                         <form asp-action="OpenArtist" method="get">
-                            <input type="submit" value="Open" />
+                            <input type="submit" value="@Localizer["Open"]" />
                             @Html.Hidden("ArtistId", artist.Id)
                         </form>
                     </td>
@@ -50,7 +51,7 @@
                         {
                             <td>
                                 <form asp-action="Favorite" method="post">
-                                    <input type="submit" value="Favorite" />
+                                    <input type="submit" value="@Localizer["Favorite"]" />
                                     @Html.Hidden("ArtistId", artist.Id)
                                 </form>
                             </td>
@@ -59,7 +60,7 @@
                         {
                             <td>
                                 <form asp-action="Unfavorite" method="post">
-                                    <input type="submit" value="Unfavorite" />
+                                    <input type="submit" value="@Localizer["Unfavorite"]" />
                                     @Html.Hidden("ArtistId", artist.Id)
                                 </form>
                             </td>
@@ -69,13 +70,13 @@
                     {
                         <td>
                             <form asp-action="Edit" method="get">
-                                <input type="submit" value="Edit" />
+                                <input type="submit" value="@Localizer["Edit"]" />
                                 @Html.Hidden("ArtistId", artist.Id)
                             </form>
                         </td>
                         <td>
                             <form asp-action="Delete" method="post">
-                                <input type="submit" value="Delete" />
+                                <input type="submit" value="@Localizer["Delete"]" />
                                 @Html.Hidden("ArtistId", artist.Id)
                             </form>
                         </td>

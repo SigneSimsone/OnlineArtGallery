@@ -118,36 +118,36 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Add artist" xml:space="preserve">
-    <value>Add new artist</value>
+    <value>Pievienot jaunu mākslinieku</value>
   </data>
   <data name="Artists" xml:space="preserve">
-    <value>Artists</value>
+    <value>Mākslinieki</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>Dzēst</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>Rediģēt</value>
   </data>
   <data name="Favorite" xml:space="preserve">
-    <value>Favorite</value>
+    <value>Patīk</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Name</value>
+    <value>Vārds</value>
   </data>
   <data name="Open" xml:space="preserve">
-    <value>Open</value>
+    <value>Atvērt</value>
   </data>
   <data name="Place" xml:space="preserve">
-    <value>Place of birth</value>
+    <value>Dzimšanas vieta</value>
   </data>
   <data name="Submit" xml:space="preserve">
-    <value>Submit</value>
+    <value>Iesniegt</value>
   </data>
   <data name="Surname" xml:space="preserve">
-    <value>Surname</value>
+    <value>Uzvārds</value>
   </data>
   <data name="Unfavorite" xml:space="preserve">
-    <value>Unfavorite</value>
+    <value>Nepatīk</value>
   </data>
 </root>

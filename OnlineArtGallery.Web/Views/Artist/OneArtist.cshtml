@@ -1,14 +1,15 @@
 ﻿@model ArtistModel
+@inject IViewLocalizer Localizer
 
 @if (Model != null)
 {
-    <h2 id="OneArtist">Information about Artist</h2>
+<h2 id="OneArtist">@Localizer["Artist info"]</h2>
     <table id="OneArtistTable">
         <thead id="thead">
             <tr>
-                <th>@Html.DisplayNameFor(x => x.Name)</th>
-                <th>@Html.DisplayNameFor(x => x.Surname)</th>
-                <th>@Html.DisplayNameFor(x => x.PlaceOfBirth)</th>
+                <th>@Localizer["Name"]</th>
+                <th>@Localizer["Surname"]</th>
+                <th>@Localizer["Place"]</th>
             </tr>
         </thead>
         <tbody id="tbody">
@@ -25,7 +26,7 @@
             <li>
                 @artwork.Title
                 <form asp-controller="Artwork" asp-action="OpenArtwork" method="get">
-                    <input type="submit" value="Open" />
+                    <input type="submit" value="@Localizer["Open"]" />
                     @Html.Hidden("ArtworkId", artwork.Id)
                 </form>
             </li>
