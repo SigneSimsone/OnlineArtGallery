@@ -1,44 +1,45 @@
 ﻿@model ArtworkViewModel
+@inject IViewLocalizer Localizer
 
-<h5>Edit artwork:</h5>
+<h5>@Localizer["Edit artwork"]:</h5>
 <form asp-action="Edit" method="post" enctype="multipart/form-data">
     @Html.Hidden("ArtworkId", Model.Id)
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <label asp-for="Title"></label>
+    <label asp-for="Title">@Localizer["Title"]</label>
     <input asp-for="Title" class="form-control" />
     <span asp-validation-for="Title" class="text-danger"></span><br />
 
-    <label asp-for="SelectedArtist">Artist</label>
+    <label asp-for="SelectedArtist">@Localizer["Artist"]</label>
     <select asp-for="SelectedArtist" asp-items="Model.ArtistDropdown" class="form-control">
     </select>
     <span asp-validation-for="SelectedArtist" class="text-danger"></span><br />
 
-    <label asp-for="SelectedStyle">Style</label>
+    <label asp-for="SelectedStyle">@Localizer["Style"]</label>
     <select asp-for="SelectedStyle" asp-items="Model.StyleDropdown" class="form-control">
     </select>
     <span asp-validation-for="SelectedStyle" class="text-danger"></span><br />
 
-    <label asp-for="Year"></label>
+    <label asp-for="Year">@Localizer["Year"]</label>
     <input asp-for="Year" class="form-control" />
 
-    <label asp-for="Description"></label>
+    <label asp-for="Description">@Localizer["Description"]</label>
     <input asp-for="Description" class="form-control" />
 
-    <label asp-for="Type"></label>
+    <label asp-for="Type">@Localizer["Type"]</label>
     <input asp-for="Type" class="form-control" />
 
-    <label asp-for="Price"></label>
+    <label asp-for="Price">@Localizer["Price"]</label>
     <input asp-for="Price" class="form-control" />
 
-    <label asp-for="Availability"></label>
+    <label asp-for="Availability">@Localizer["Availability"]</label>
     <input asp-for="Availability" class="form-control" />
 
-    <label asp-for="File"></label>
+    <label asp-for="File">@Localizer["File"]</label>
     <input asp-for="File" class="form-control" />
     <img src="@Model.FilePath" width="200">
 
-    <input type="submit" value="Submit" />
+    <input type="submit" value="@Localizer["Submit"]" />
 </form>
 

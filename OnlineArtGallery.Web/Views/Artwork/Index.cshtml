@@ -1,55 +1,56 @@
 ﻿@model ArtworkViewModel
+@inject IViewLocalizer Localizer
 
 @if (User.IsInRole("Admin"))
 {
-    <h5>Add new artwork:</h5>
+<h5>@Localizer["Add artwork"]:</h5>
     <form asp-action="AddArtwork" method="post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <label asp-for="Title" class="control-label"></label>
+        <label asp-for="Title" class="control-label">@Localizer["Title"]</label>
         <input asp-for="Title" class="form-control" />
         <span asp-validation-for="Title" class="text-danger"></span><br />
 
-        <label asp-for="SelectedArtist">Artist</label>
+        <label asp-for="SelectedArtist">@Localizer["Artist"]</label>
         <select asp-for="SelectedArtist" asp-items="Model.ArtistDropdown" class="form-control">
-            <option value="">Select artist</option>
+            <option value="">@Localizer["Select artist"]</option>
         </select>
         <span asp-validation-for="SelectedArtist" class="text-danger"></span><br />
 
-        <label asp-for="SelectedStyle">Style</label>
+        <label asp-for="SelectedStyle">@Localizer["Style"]</label>
         <select asp-for="SelectedStyle" asp-items="Model.StyleDropdown" class="form-control">
-            <option value="">Select style</option>
+            <option value="">@Localizer["Select style"]</option>
         </select>
         <span asp-validation-for="SelectedStyle" class="text-danger"></span><br />
 
-        <label asp-for="Year"></label>
+        <label asp-for="Year">@Localizer["Year"]</label>
         <input asp-for="Year" class="form-control" />
 
-        <label asp-for="Description"></label>
+        <label asp-for="Description">@Localizer["Description"]</label>
         <input asp-for="Description" class="form-control" />
 
-        <label asp-for="Type"></label>
+        <label asp-for="Type">@Localizer["Type"]</label>
         <input asp-for="Type" class="form-control" />
 
-        <label asp-for="Price"></label>
+        <label asp-for="Price">@Localizer["Price"]</label>
         <input asp-for="Price" class="form-control" />
 
-        <label asp-for="Availability"></label>
+        <label asp-for="Availability">@Localizer["Availability"]</label>
         <input asp-for="Availability" class="form-control" />
 
-        <label asp-for="File"></label>
+        <label asp-for="File">@Localizer["File"]</label>
         <input asp-for="File" class="form-control" />
 
-        <input type="submit" value="Submit" />
+        <input type="submit" value="@Localizer["Submit"]" />
     </form>
 
 
 
-    <h5>Add new style to database:</h5>
+    <h5>@Localizer["Add style"]</h5>
     <form asp-action="AddStyle" method="post">
-        <label for="new-style">Style:</label>
+        <label for="new-style">@Localizer["Style"]:</label>
         <input type="text" id="new-style" name="style" />
-        <input type="submit" value="Submit" />
+        <input type="submit" value="@Localizer["Submit"]" />
     </form>
 }
 
@@ -57,19 +58,19 @@
 
 @if (Model != null && Model.Artworks.Length > 0)
 {
-    <h2 id="artworks">Artworks</h2>
+<h2 id="artworks">@Localizer["Artworks"]</h2>
     <table id="ArtworksTable">
         <thead id="thead">
             <tr>
-                <th>@Html.DisplayNameFor(x => x.Artworks[0].Title)</th>
-                <th>@Html.DisplayNameFor(x => x.Artworks[0].Artist)</th>
-                <th>Image</th>
-                <th>Open</th>
-                <th>Favorite</th>
+                <th>@Localizer["Title"]</th>
+                <th>@Localizer["Artist"]</th>
+                <th>@Localizer["Image"]</th>
+                <th>@Localizer["Open"]</th>
+                <th>@Localizer["Favorite"]</th>
                 @if (User.IsInRole("Admin"))
                 {
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>@Localizer["Edit"]</th>
+                    <th>@Localizer["Delete"]</th>
                 }
             </tr>
         </thead>
@@ -82,7 +83,7 @@
                     <td><img src="@artwork.FilePath" width="200"></td>
                     <td>
                         <form asp-action="OpenArtwork" method="get">
-                            <input type="submit" value="Open" />
+                            <input type="submit" value="@Localizer["Open"]" />
                             @Html.Hidden("ArtworkId", artwork.Id)
                         </form>
                     </td>
@@ -91,7 +92,7 @@
                         {
                             <td>
                                 <form asp-action="Favorite" method="post">
-                                    <input type="submit" value="Favorite" />
+                                    <input type="submit" value="@Localizer["Favorite"]" />
                                     @Html.Hidden("ArtworkId", artwork.Id)
                                 </form>
                             </td>
@@ -100,7 +101,7 @@
                         {
                             <td>
                                 <form asp-action="Unfavorite" method="post">
-                                    <input type="submit" value="Unfavorite" />
+                                    <input type="submit" value="@Localizer["Unfavorite"]" />
                                     @Html.Hidden("ArtworkId", artwork.Id)
                                 </form>
                             </td>
@@ -112,13 +113,13 @@
                     {
                         <td>
                             <form asp-action="Edit" method="get">
-                                <input type="submit" value="Edit" />
+                                <input type="submit" value="@Localizer["Edit"]" />
                                 @Html.Hidden("ArtworkId", artwork.Id)
                             </form>
                         </td>
                         <td>
                             <form asp-action="Delete" method="post">
-                                <input type="submit" value="Delete" />
+                                <input type="submit" value="@Localizer["Delete"]" />
                                 @Html.Hidden("ArtworkId", artwork.Id)
                                 @Html.Hidden("Feedbacks", artwork.Feedbacks)
                             </form>

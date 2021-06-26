@@ -1,21 +1,22 @@
 ﻿@model ArtworkModel
+@inject IViewLocalizer Localizer
 
 @if (Model != null)
 {
-    <h2 id="OneArtwork">Information about Artwork</h2>
+<h2 id="OneArtwork">@Localizer["Artwork info"]</h2>
     <table id="OneArtworkTable">
         <thead id="thead">
             <tr>
-                <th>@Html.DisplayNameFor(x => x.Title)</th>
-                <th>@Html.DisplayNameFor(x => x.Artist)</th>
-                <th>@Html.DisplayNameFor(x => x.Style)</th>
-                <th>@Html.DisplayNameFor(x => x.Year)</th>
-                <th>@Html.DisplayNameFor(x => x.Description)</th>
-                <th>@Html.DisplayNameFor(x => x.Type)</th>
-                <th>@Html.DisplayNameFor(x => x.Price)</th>
-                <th>@Html.DisplayNameFor(x => x.Availability)</th>
-                <th>Image</th>
-                <th>Feedback</th>
+                <th>@Localizer["Title"]</th>
+                <th>@Localizer["Artist"]</th>
+                <th>@Localizer["Style"]</th>
+                <th>@Localizer["Year"]</th>
+                <th>@Localizer["Description"]</th>
+                <th>@Localizer["Type"]</th>
+                <th>@Localizer["Price"]</th>
+                <th>@Localizer["Availability"]</th>
+                <th>@Localizer["Image"]</th>
+                <th>@Localizer["Feedback"]</th>
             </tr>
         </thead>
         <tbody id="tbody">
@@ -24,7 +25,7 @@
                 <td>
                     @Model.Artist.FullName
                     <form asp-controller="Artist" asp-action="OpenArtist" asp-route-id="@Model.Artist.Id" method="get">
-                        <input type="submit" value="Open" />
+                        <input type="submit" value="@Localizer["Open"]" />
                         @Html.Hidden("ArtistId", Model.Artist.Id)
                     </form>
                 </td>
@@ -38,9 +39,9 @@
 
                 <td>
                     <form asp-action="AddFeedback" method="post">
-                        <label for="new-comment">Your Comment:</label>
+                        <label for="new-comment">@Localizer["Add comment"]:</label>
                         <input type="text" id="new-comment" name="comment" />
-                        <input type="submit" value="Submit" />
+                        <input type="submit" value="@Localizer["Submit"]" />
                         @Html.Hidden("ArtworkId", Model.Id)
                     </form>
                 </td>
@@ -48,7 +49,7 @@
                 {
                     <td>
                         <form asp-action="BuyArtwork" method="get">
-                            <input type="submit" value="Buy This Artwork" />
+                            <input type="submit" value="@Localizer["Buy"]" />
                             @Html.Hidden("ArtworkId", Model.Id)
                         </form>
                     </td>
@@ -60,12 +61,12 @@
     @foreach (var feedback in Model.Feedbacks)
     {
         <p>@feedback.Comment</p>
-        <p>@feedback.Date</p>
+        <p>@feedback.Date.ToString("dd/MM/yyyy HH:mm")</p>
         @if (User.IsInRole("Admin"))
         {
             <td>
                 <form asp-action="DeleteFeedback" method="post">
-                    <input type="submit" value="Delete" />
+                    <input type="submit" value="@Localizer["Delete"]" />
                     @Html.Hidden("FeedbackId", feedback.Id)
                     @Html.Hidden("ArtworkId", Model.Id)
                 </form>
