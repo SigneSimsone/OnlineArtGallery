@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OnlineArtGallery.Web.Data;
 using OnlineArtGallery.Web.Data.Managers;
+using OnlineArtGallery.Web.Middlewares;
 using OnlineArtGallery.Web.Models;
 
 namespace OnlineArtGallery.Web
@@ -35,7 +37,9 @@ namespace OnlineArtGallery.Web
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
-            services.AddControllersWithViews();
+            services
+                .AddControllersWithViews()
+                .AddViewLocalization();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -48,6 +52,25 @@ namespace OnlineArtGallery.Web
             services.AddScoped<ExhibitionDataManager>();
             services.AddScoped<AdminDataManager>();
             services.AddScoped<AuditDataManager>();
+
+            services.AddLocalization(options =>
+            {
+                options.ResourcesPath = "Resources";
+            });
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.SetDefaultCulture("en-US");
+                options.AddSupportedUICultures("en-US", "lv-LV");
+                options.FallBackToParentUICultures = true;
+
+                options
+                    .RequestCultureProviders
+                    .Remove(typeof(AcceptLanguageHeaderRequestCultureProvider));
+            });
+
+            services.AddScoped<RequestLocalizationCookiesMiddleware>();
+
 
         }
 
@@ -67,6 +90,11 @@ namespace OnlineArtGallery.Web
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseRequestLocalization();
+
+            app.UseRequestLocalizationCookies();
+
 
             app.UseRouting();
 
