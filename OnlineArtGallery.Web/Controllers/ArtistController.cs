@@ -58,6 +58,12 @@ namespace OnlineArtGallery.Web.Controllers
         [HttpGet]
         public IActionResult OpenArtist(Guid ArtistId)
         {
+
+            if (ArtistId == Guid.Empty)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             // get artist from database (ArtistModel)
             ArtistModel model = _artistDataManager.GetOneArtist(ArtistId);
             // return view 

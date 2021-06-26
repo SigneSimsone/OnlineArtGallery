@@ -9,7 +9,6 @@
             <tr>
                 <th>@Localizer["Name"]</th>
                 <th>@Localizer["Surname"]</th>
-                <th>@Localizer["Place"]</th>
                 <th>@Localizer["Open"]</th>
                 <th>@Localizer["Unfavorite"]</th>
             </tr>
@@ -22,7 +21,6 @@
                     <tr>
                         <td>@artist.Name</td>
                         <td>@artist.Surname</td>
-                        <td>@artist.PlaceOfBirth</td>
                         <td>
                             <form asp-action="OpenArtist" method="get">
                                 <input type="submit" value="@Localizer["Open"]" />

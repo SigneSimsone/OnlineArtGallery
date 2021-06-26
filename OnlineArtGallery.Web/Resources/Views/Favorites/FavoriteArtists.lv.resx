@@ -126,9 +126,6 @@
   <data name="Open" xml:space="preserve">
     <value>Atvērt</value>
   </data>
-  <data name="Place" xml:space="preserve">
-    <value>Dzimšanas vieta</value>
-  </data>
   <data name="Surname" xml:space="preserve">
     <value>Uzvārds</value>
   </data>

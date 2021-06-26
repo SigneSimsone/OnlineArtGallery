@@ -109,6 +109,11 @@ namespace OnlineArtGallery.Web.Controllers
         public IActionResult OpenExhibition(Guid ExhibitionId)
         {
 
+            if (ExhibitionId == Guid.Empty)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             ExhibitionModel model = _exhibitionDataManager.GetOneExhibition(ExhibitionId);
 
             return View("OneExhibition", model);
