@@ -1,28 +1,29 @@
 ﻿@model ExhibitionViewModel
+@inject IViewLocalizer Localizer
 
 @if (User.IsInRole("Admin"))
 {
-    <h5>Add new exhibition:</h5>
+<h5>@Localizer["Add exhibition"]:</h5>
     <form asp-action="AddExhibition" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <label asp-for="Title"></label>
+        <label asp-for="Title">@Localizer["Title"]</label>
         <input asp-for="Title" class="form-control" />
         <span asp-validation-for="Title" class="text-danger"></span><br />
 
-        <label asp-for="SelectedArtworks">Artworks</label>
+        <label asp-for="SelectedArtworks">@Localizer["Artworks"]</label>
         <select asp-for="SelectedArtworks" asp-items="Model.ArtworkDropdown" class="form-control" multiple="multiple">
-            <option value="">Select Artworks</option>
+            <option value="">@Localizer["Select artworks"]</option>
         </select>
         <span asp-validation-for="SelectedArtworks" class="text-danger"></span><br />
 
-        <label asp-for="StartDate">Start Date</label>
+        <label asp-for="StartDate">@Localizer["Start date"]</label>
         <input asp-for="StartDate" class="form-control" />
 
-        <label asp-for="EndDate">End Date</label>
+        <label asp-for="EndDate">@Localizer["End date"]</label>
         <input asp-for="EndDate" class="form-control" />
 
-        <input type="submit" value="Submit" />
+        <input type="submit" value="@Localizer["Submit"]" />
     </form>
 }
 
@@ -30,17 +31,17 @@
 
 @if (Model != null)
 {
-    <h2 id="exhibitions">Exhibitions</h2>
+<h2 id="exhibitions">@Localizer["Exhibitions"]</h2>
     <table id="ExhibitionsTable">
         <thead id="thead">
             <tr>
-                <th>@Html.DisplayNameFor(x => x.Exhibitions[0].Title)</th>
-                <th>@Html.DisplayNameFor(x => x.Exhibitions[0].StartDate)</th>
-                <th>@Html.DisplayNameFor(x => x.Exhibitions[0].EndDate)</th>
-                <th>Open</th>
+                <th>@Localizer["Title"]</th>
+                <th>@Localizer["Start date"]</th>
+                <th>@Localizer["End date"]</th>
+                <th>@Localizer["Open"]</th>
                 @if (User.IsInRole("Admin"))
                 {
-                    <th>Edit</th>
+            <th>@Localizer["Edit"]</th>
                 }
             </tr>
         </thead>
@@ -53,7 +54,7 @@
                     <td>@exhibition.EndDate.ToString("dd/MM/yyyy")</td>
                     <td>
                         <form asp-action="OpenExhibition" method="get">
-                            <input type="submit" value="Open" />
+                            <input type="submit" value="@Localizer["Open"]" />
                             @Html.Hidden("ExhibitionId", exhibition.Id)
                         </form>
                     </td>
@@ -61,13 +62,13 @@
                     {
                         <td>
                             <form asp-action="Edit" method="get">
-                                <input type="submit" value="Edit" />
+                                <input type="submit" value="@Localizer["Edit"]" />
                                 @Html.Hidden("ExhibitionId", exhibition.Id)
                             </form>
                         </td>
                         <td>
                             <form asp-action="Delete" method="post">
-                                <input type="submit" value="Delete" />
+                                <input type="submit" value="@Localizer["Delete"]" />
                                 @Html.Hidden("ExhibitionId", exhibition.Id)
                             </form>
                         </td>

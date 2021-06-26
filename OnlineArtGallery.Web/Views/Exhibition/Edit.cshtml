@@ -1,26 +1,27 @@
 ﻿@model ExhibitionViewModel
+@inject IViewLocalizer Localizer
 
-<h5>Edit exhibition:</h5>
+<h5>@Localizer["Edit exhibition"]:</h5>
 <form asp-action="Edit" method="post">
     @Html.Hidden("ExhibitionId", Model.Id)
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <label asp-for="Title"></label>
+    <label asp-for="Title">@Localizer["Title"]</label>
     <input asp-for="Title" class="form-control" />
     <span asp-validation-for="Title" class="text-danger"></span><br />
 
-    <label asp-for="SelectedArtworks">Artworks</label>
+    <label asp-for="SelectedArtworks">@Localizer["Artworks"]</label>
     <select asp-for="SelectedArtworks" asp-items="Model.ArtworkDropdown" class="form-control" multiple="multiple">
-        <option value=""></option>
+        <option value="">@Localizer["Select artworks"]</option>
     </select>
     <span asp-validation-for="SelectedArtworks" class="text-danger"></span><br />
 
-    <label asp-for="StartDate">Start Date</label>
+    <label asp-for="StartDate">@Localizer["Start date"]</label>
     <input asp-for="StartDate" class="form-control" />
 
-    <label asp-for="EndDate">End Date</label>
+    <label asp-for="EndDate">@Localizer["End date"]</label>
     <input asp-for="EndDate" class="form-control" />
 
-    <input type="submit" value="Submit" />
+    <input type="submit" value="@Localizer["Submit"]" />
 </form>

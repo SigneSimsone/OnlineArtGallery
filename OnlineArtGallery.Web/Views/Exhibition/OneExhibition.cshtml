@@ -1,16 +1,17 @@
 ﻿@model ExhibitionModel
+@inject IViewLocalizer Localizer
 
 @if (Model != null)
 {
-    <h2 id="OneExhibition">Information about exhibition</h2>
+<h2 id="OneExhibition">@Localizer["Exhibition info"]</h2>
     <table id="OneExhibitionTable">
         <thead id="thead">
             <tr>
-                <th>@Html.DisplayNameFor(x => x.Title)</th>
-                <th>@Html.DisplayNameFor(x => x.Artists)</th>
-                <th>@Html.DisplayNameFor(x => x.Artworks)</th>
-                <th>@Html.DisplayNameFor(x => x.StartDate)</th>
-                <th>@Html.DisplayNameFor(x => x.EndDate)</th>
+                <th>@Localizer["Title"]</th>
+                <th>@Localizer["Artists"]</th>
+                <th>@Localizer["Artworks"]</th>
+                <th>@Localizer["Start date"]</th>
+                <th>@Localizer["End date"]</th>
             </tr>
         </thead>
         <tbody id="tbody">
