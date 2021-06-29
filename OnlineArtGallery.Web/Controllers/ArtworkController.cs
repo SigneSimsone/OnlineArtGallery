@@ -201,6 +201,8 @@ namespace OnlineArtGallery.Web.Controllers
         [HttpPost]
         public IActionResult Favorite(Guid ArtworkId)
         {
+            _ = AddAuditActionAsync("Favorited artwork");
+            
             var user = _userManager.GetUserAsync(User).Result;
 
             _artworkDataManager.FavoriteArtwork(ArtworkId, user);
@@ -303,6 +305,13 @@ namespace OnlineArtGallery.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        internal async Task AddAuditActionAsync(string action) 
+        {
+            
+            var user = await _userManager.GetUserAsync(User);
+            _auditDataManager.AddAuditRecord(user, action);
+
+        }
     }
 }
 
